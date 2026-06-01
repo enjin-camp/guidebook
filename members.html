@@ -25,7 +25,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 .hero-title { font-family: 'Nunito Sans', sans-serif; font-size: 32px; font-weight: 900; letter-spacing: 0.1em; color: #fff; margin-bottom: 10px; }
 .hero-title span { color: #0fb8a0; }
 .hero-accent { width: 40px; height: 3px; background: #0fb8a0; border-radius: 2px; margin: 0 auto 16px; }
-.hero-count { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; }
+.hero-sub { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.05em; }
 
 .grid-wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px 80px; }
 .member-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -66,6 +66,28 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 .card-photo.c7 { background: linear-gradient(135deg, rgba(166,120,26,0.55), rgba(196,88,26,0.5)); }
 .card-photo.c8 { background: linear-gradient(135deg, rgba(166,26,100,0.5), rgba(91,26,166,0.55)); }
 .loading { text-align: center; padding: 80px 24px; color: rgba(255,255,255,0.4); font-size: 13px; letter-spacing: 0.1em; }
+
+.filter-bar {
+  max-width: 1040px; margin: 0 auto 28px; padding: 0 24px;
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+}
+.filter-select {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+  color: #fff; border-radius: 8px; padding: 8px 14px;
+  font-size: 12px; font-family: 'Noto Sans JP', sans-serif;
+  cursor: pointer; appearance: none; padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='rgba(255,255,255,0.5)' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  min-width: 160px;
+}
+.filter-select option { background: #0d1a6b; color: #fff; }
+.filter-reset {
+  background: none; border: 1px solid rgba(255,255,255,0.18); border-radius: 8px;
+  color: rgba(255,255,255,0.5); font-size: 12px; padding: 8px 14px;
+  cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: opacity 0.15s;
+}
+.filter-reset:hover { opacity: 0.7; }
+.no-result { text-align: center; padding: 60px 24px; color: rgba(255,255,255,0.35); font-size: 13px; grid-column: 1/-1; }
 </style>
 </head>
 <body>
@@ -79,7 +101,17 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   <div class="hero-eyebrow">ENJIN CAMP 2026</div>
   <div class="hero-title">Meet The <span>Members</span></div>
   <div class="hero-accent"></div>
-  <div class="hero-count" id="count">読み込み中...</div>
+  <div class="hero-sub">カードをクリックすると、詳細プロフィールを見られます</div>
+</div>
+
+<div class="filter-bar">
+  <select class="filter-select" id="filter-hometown">
+    <option value="">出身地：すべて</option>
+  </select>
+  <select class="filter-select" id="filter-initiative">
+    <option value="">イニシアチブ：すべて</option>
+  </select>
+  <button class="filter-reset" id="filter-reset">リセット</button>
 </div>
 
 <div class="grid-wrap">
@@ -114,6 +146,33 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
       </a>`;
   }
 
+  let allMembers = [];
+
+  function populateSelect(selectId, values) {
+    const sel = document.getElementById(selectId);
+    const first = sel.options[0];
+    sel.innerHTML = '';
+    sel.appendChild(first);
+    [...new Set(values.filter(Boolean))].sort().forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v; opt.textContent = v;
+      sel.appendChild(opt);
+    });
+  }
+
+  function applyFilter() {
+    const hometown  = document.getElementById('filter-hometown').value;
+    const initiative = document.getElementById('filter-initiative').value;
+    const filtered = allMembers.filter(p =>
+      (!hometown   || p.hometown  === hometown) &&
+      (!initiative || p.initiative === initiative)
+    );
+    const grid = document.getElementById('grid');
+    grid.innerHTML = filtered.length
+      ? filtered.map((p, i) => renderCard(p, i)).join('')
+      : '<div class="no-result">該当するメンバーが見つかりません</div>';
+  }
+
   async function load() {
     const grid = document.getElementById('grid');
     const res = await gasGet({ action: 'participants' });
@@ -121,8 +180,18 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
       grid.innerHTML = '<div class="loading">読み込みに失敗しました</div>';
       return;
     }
-    document.getElementById('count').textContent = `${res.data.length}名が集います`;
-    grid.innerHTML = res.data.map((p, i) => renderCard(p, i)).join('');
+    allMembers = res.data;
+    populateSelect('filter-hometown',   allMembers.map(p => p.hometown));
+    populateSelect('filter-initiative', allMembers.map(p => p.initiative));
+    grid.innerHTML = allMembers.map((p, i) => renderCard(p, i)).join('');
+
+    document.getElementById('filter-hometown').addEventListener('change', applyFilter);
+    document.getElementById('filter-initiative').addEventListener('change', applyFilter);
+    document.getElementById('filter-reset').addEventListener('click', () => {
+      document.getElementById('filter-hometown').value = '';
+      document.getElementById('filter-initiative').value = '';
+      applyFilter();
+    });
   }
 
   load();
