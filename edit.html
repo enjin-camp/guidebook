@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>プロフィール編集 | ENJIN 2026 GUIDE BOOK</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#eef1f8;min-height:100vh;}
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-bottom:1px solid rgba(13,26,107,0.08);}
+.nav-logo{font-family:'Nunito Sans',sans-serif;font-size:15px;font-weight:800;letter-spacing:0.15em;color:#0d1a6b;text-decoration:none;}
+.nav-logo span{color:#0fb8a0;}
+.nav-back{font-size:11px;color:#888;text-decoration:none;transition:color 0.15s;}
+.nav-back:hover{color:#0d1a6b;}
+.wrap{max-width:480px;margin:0 auto;padding:40px 24px 80px;}
+.page-title{font-size:18px;font-weight:700;color:#0d1a6b;margin-bottom:6px;}
+.page-sub{font-size:12px;color:#999;line-height:1.8;margin-bottom:36px;}
+.step{display:none;}
+.step.active{display:block;}
+.field{margin-bottom:24px;}
+.field label{display:block;font-size:11px;letter-spacing:0.15em;color:#888;margin-bottom:8px;}
+.field input,.field textarea,.field select{width:100%;background:#fff;border:1px solid rgba(13,26,107,0.15);border-radius:10px;padding:13px 16px;font-size:14px;color:#1a2a6b;font-family:'Noto Sans JP',sans-serif;outline:none;resize:vertical;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#0fb8a0;}
+.field textarea{min-height:90px;line-height:1.7;}
+.field-hint{font-size:11px;color:#bbb;margin-top:6px;line-height:1.6;}
+.field-hint a{color:#0fb8a0;text-decoration:none;}
+.btn{width:100%;background:#0d1a6b;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;color:#fff;letter-spacing:0.08em;cursor:pointer;transition:opacity 0.2s;font-family:'Noto Sans JP',sans-serif;}
+.btn:hover{opacity:0.85;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.error{font-size:12px;color:#f87171;margin-top:12px;min-height:18px;}
+.preview{background:#fff;border:1px solid rgba(13,26,107,0.1);border-radius:12px;padding:16px;margin-bottom:24px;}
+.preview-name{font-size:15px;font-weight:700;color:#0d1a6b;margin-bottom:3px;}
+.preview-org{font-size:12px;color:#999;}
+.success-box{background:#fff;border:1px solid rgba(15,184,160,0.3);border-radius:14px;padding:32px;text-align:center;}
+.success-icon{font-size:36px;margin-bottom:12px;}
+.success-title{font-size:16px;font-weight:700;color:#0fb8a0;margin-bottom:8px;}
+.success-body{font-size:13px;color:#888;line-height:1.8;margin-bottom:20px;}
+.link-btn{display:block;text-align:center;padding:12px;background:#f5f7fc;border:1px solid rgba(13,26,107,0.1);border-radius:10px;color:#0d1a6b;font-size:13px;font-weight:700;text-decoration:none;}
+.link-btn:hover{background:#eef1f8;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="members.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-back" href="javascript:history.back()">← 戻る</a>
+</nav>
+<div class="wrap">
+  <div class="page-title">プロフィールを編集する</div>
+  <div class="page-sub" id="page-sub">ENJINタイプ・ギブできること・助けてほしいことを登録してください。イベント直前まで何度でも変更できます。</div>
+
+  <!-- STEP 1: edit_id確認（URLにidパラメータがない場合のみ表示） -->
+  <div class="step" id="step1">
+    <div class="field">
+      <label>編集ID</label>
+      <input type="text" id="edit-id" placeholder="例：enjin-a7x2" autocomplete="off" spellcheck="false">
+      <div class="field-hint">招待メールに記載されています</div>
+    </div>
+    <button class="btn" id="id-btn">確認する</button>
+    <div class="error" id="id-error"></div>
+  </div>
+
+  <!-- STEP 2: 内容入力 -->
+  <div class="step" id="step2">
+    <div class="preview" id="preview"></div>
+    <div class="field">
+      <label>ENJINタイプ</label>
+      <select id="enjin-type">
+        <option value="">未診断（あとで入力する）</option>
+        <option value="igniter">🔥 火を灯す人</option>
+        <option value="visionary">🌍 未来を描く人</option>
+        <option value="driver">🚀 動かす人</option>
+        <option value="cultivator">🌱 耕す人</option>
+        <option value="connector">🔗 つなぐ人</option>
+        <option value="supporter">🛠️ 支える人</option>
+        <option value="observer">🧭 俯瞰する人</option>
+        <option value="seeker">🫧 余白を生む人</option>
+      </select>
+      <div class="field-hint">まだの方は <a href="https://enjin-camp.github.io/type/" target="_blank">こちらで診断 →</a></div>
+    </div>
+    <div class="field">
+      <label>ギブできること</label>
+      <textarea id="can-give" placeholder="例：スタートアップ支援、マーケティング戦略の壁打ちなど"></textarea>
+      <div class="field-hint">他の参加者に提供できるスキル・経験・つながり</div>
+    </div>
+    <div class="field">
+      <label>助けてほしいこと</label>
+      <textarea id="need-help" placeholder="例：地方自治体とのパートナーシップ、資金調達など"></textarea>
+      <div class="field-hint">今困っていること・相談したいこと</div>
+    </div>
+    <button class="btn" id="save-btn">保存する</button>
+    <div class="error" id="save-error"></div>
+  </div>
+
+  <!-- STEP 3: 完了 -->
+  <div class="step" id="step3">
+    <div class="success-box">
+      <div class="success-icon">✓</div>
+      <div class="success-title">保存しました</div>
+      <div class="success-body">プロフィールが更新されました。<br>イベント直前まで何度でも変更できます。</div>
+      <a class="link-btn" id="profile-link" href="members.html">プロフィールを確認する</a>
+    </div>
+  </div>
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+  let currentProfile = null;
+
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById(`step${n}`).classList.add('active');
+  }
+
+  function populateForm(profile) {
+    currentProfile = profile;
+    document.getElementById('preview').innerHTML = `
+      <div class="preview-name">${profile.nickname || profile.name || '—'}</div>
+      <div class="preview-org">${[profile.title, profile.organization].filter(Boolean).join(' / ')}</div>`;
+    if (profile.enjin_type) document.getElementById('enjin-type').value = profile.enjin_type;
+    document.getElementById('can-give').value = profile.can_give || '';
+    document.getElementById('need-help').value = profile.need_help || '';
+    showStep(2);
+  }
+
+  // URLに ?id= がある場合はStep1をスキップして直接ロード
+  const presetId = getParam('id');
+  if (presetId) {
+    showStep(2);
+    document.getElementById('preview').innerHTML = '<div class="preview-org">読み込み中...</div>';
+    document.getElementById('save-btn').disabled = true;
+
+    gasGet({ action: 'participants' }).then(res => {
+      if (!res.ok) {
+        document.getElementById('preview').innerHTML = '<div class="preview-org" style="color:#f87171">読み込みに失敗しました</div>';
+        return;
+      }
+      const profile = res.data.find(p => p.edit_id === presetId);
+      if (!profile) {
+        document.getElementById('preview').innerHTML = '<div class="preview-org" style="color:#f87171">このIDのプロフィールが見つかりません</div>';
+        return;
+      }
+      populateForm(profile);
+      document.getElementById('save-btn').disabled = false;
+    });
+  } else {
+    // URLにidがない場合はStep1（手動入力）を表示
+    document.getElementById('page-sub').textContent = '招待メールに記載の編集IDを入力して、プロフィールを登録・更新してください。';
+    showStep(1);
+  }
+
+  document.getElementById('id-btn').addEventListener('click', async () => {
+    const editId = document.getElementById('edit-id').value.trim();
+    if (!editId) return;
+    const btn = document.getElementById('id-btn');
+    btn.disabled = true; btn.textContent = '確認中...';
+    document.getElementById('id-error').textContent = '';
+
+    const res = await gasGet({ action: 'participants' });
+    btn.disabled = false; btn.textContent = '確認する';
+
+    if (!res.ok) {
+      document.getElementById('id-error').textContent = '通信エラーが発生しました。しばらくしてからお試しください。';
+      return;
+    }
+    const profile = res.data.find(p => p.edit_id === editId);
+    if (!profile) {
+      document.getElementById('id-error').textContent = '編集IDが見つかりません。招待メールをご確認ください。';
+      return;
+    }
+    populateForm(profile);
+  });
+
+  document.getElementById('save-btn').addEventListener('click', async () => {
+    if (!currentProfile) return;
+    const btn = document.getElementById('save-btn');
+    btn.disabled = true; btn.textContent = '保存中...';
+    document.getElementById('save-error').textContent = '';
+
+    const res = await gasPost({
+      edit_id: currentProfile.edit_id,
+      enjin_type: document.getElementById('enjin-type').value,
+      can_give: document.getElementById('can-give').value.trim(),
+      need_help: document.getElementById('need-help').value.trim(),
+    });
+
+    btn.disabled = false; btn.textContent = '保存する';
+
+    if (res.ok) {
+      document.getElementById('profile-link').href = `profile.html?id=${currentProfile.edit_id}`;
+      showStep(3);
+    } else {
+      document.getElementById('save-error').textContent = `エラー: ${res.error || '保存に失敗しました'}`;
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENJIN 2026 GUIDE BOOK — 参加者一覧</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height: 100vh; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,26,107,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo { font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.15em; color: #fff; text-decoration: none; }
+.nav-logo span { color: #0fb8a0; }
+.nav-edit { font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; text-decoration: none; transition: opacity 0.2s; }
+.nav-edit:hover { opacity: 0.7; }
+
+.hero { padding: 56px 24px 40px; text-align: center; }
+.hero-eyebrow { font-size: 11px; letter-spacing: 0.35em; color: rgba(255,255,255,0.4); margin-bottom: 12px; font-family: 'Nunito Sans', sans-serif; }
+.hero-title { font-family: 'Nunito Sans', sans-serif; font-size: 32px; font-weight: 900; letter-spacing: 0.1em; color: #fff; margin-bottom: 10px; }
+.hero-title span { color: #0fb8a0; }
+.hero-accent { width: 40px; height: 3px; background: #0fb8a0; border-radius: 2px; margin: 0 auto 16px; }
+.hero-count { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; }
+
+.grid-wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px 80px; }
+.member-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.member-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; overflow: hidden; cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s, background 0.15s;
+  text-decoration: none; display: block;
+}
+.member-card:hover { transform: translateY(-4px); border-color: rgba(15,184,160,0.45); background: rgba(255,255,255,0.1); }
+
+.card-photo {
+  width: 100%; aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.card-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.card-photo-initial { font-family: 'Noto Sans JP', sans-serif; font-size: 40px; font-weight: 700; color: rgba(255,255,255,0.5); }
+
+.card-body { padding: 16px 14px 18px; }
+.card-accent { width: 28px; height: 2px; background: #0fb8a0; border-radius: 2px; margin-bottom: 10px; }
+.card-nickname { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.card-org { font-size: 10px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 10px; }
+.card-tag {
+  display: inline-block;
+  font-size: 9px; letter-spacing: 0.08em; padding: 3px 9px; border-radius: 20px;
+  background: rgba(15,184,160,0.12); border: 1px solid rgba(15,184,160,0.3); color: #0fb8a0;
+}
+
+.card-photo.c1 { background: linear-gradient(135deg, rgba(91,63,166,0.65), rgba(26,111,196,0.65)); }
+.card-photo.c2 { background: linear-gradient(135deg, rgba(15,184,160,0.5), rgba(26,111,196,0.55)); }
+.card-photo.c3 { background: linear-gradient(135deg, rgba(196,88,26,0.5), rgba(166,63,91,0.55)); }
+.card-photo.c4 { background: linear-gradient(135deg, rgba(63,140,26,0.5), rgba(15,184,160,0.45)); }
+.card-photo.c5 { background: linear-gradient(135deg, rgba(140,63,166,0.55), rgba(196,88,26,0.45)); }
+.card-photo.c6 { background: linear-gradient(135deg, rgba(26,111,196,0.55), rgba(63,26,166,0.55)); }
+.card-photo.c7 { background: linear-gradient(135deg, rgba(166,120,26,0.55), rgba(196,88,26,0.5)); }
+.card-photo.c8 { background: linear-gradient(135deg, rgba(166,26,100,0.5), rgba(91,26,166,0.55)); }
+.loading { text-align: center; padding: 80px 24px; color: rgba(255,255,255,0.4); font-size: 13px; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-edit" href="edit.html">プロフィールを編集</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">ENJIN CAMP 2026</div>
+  <div class="hero-title">Meet The <span>Members</span></div>
+  <div class="hero-accent"></div>
+  <div class="hero-count" id="count">読み込み中...</div>
+</div>
+
+<div class="grid-wrap">
+  <div class="member-grid" id="grid">
+    <div class="loading">読み込み中...</div>
+  </div>
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+  requireAuth();
+
+  const COLORS = ['c1','c2','c3','c4','c5','c6','c7','c8'];
+
+  function renderCard(p, index) {
+    const colorClass = COLORS[index % COLORS.length];
+    const photoEl = p.photo_url
+      ? `<img src="${p.photo_url}" alt="${p.nickname || p.name}">`
+      : `<div class="card-photo-initial">${initials(p.nickname || p.name)}</div>`;
+    const tagEl = p.initiative
+      ? `<span class="card-tag">${p.initiative}</span>`
+      : '';
+    return `
+      <a class="member-card" href="profile.html?id=${p.edit_id}">
+        <div class="card-photo ${colorClass}">${photoEl}</div>
+        <div class="card-body">
+          <div class="card-accent"></div>
+          <div class="card-nickname">${p.nickname || p.name || '—'}</div>
+          <div class="card-org">${[p.organization, p.title].filter(Boolean).join('<br>')}</div>
+          ${tagEl}
+        </div>
+      </a>`;
+  }
+
+  async function load() {
+    const grid = document.getElementById('grid');
+    const res = await gasGet({ action: 'participants' });
+    if (!res.ok || !res.data) {
+      grid.innerHTML = '<div class="loading">読み込みに失敗しました</div>';
+      return;
+    }
+    document.getElementById('count').textContent = `${res.data.length}名が集います`;
+    grid.innerHTML = res.data.map((p, i) => renderCard(p, i)).join('');
+  }
+
+  load();
+</script>
+</body>
+</html>

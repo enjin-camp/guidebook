@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>たなかけんじ | ENJIN 2026 GUIDE BOOK</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #eef1f8; min-height: 100vh; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid rgba(13,26,107,0.08);
+}
+.nav-logo { font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.15em; color: #0d1a6b; text-decoration: none; }
+.nav-logo span { color: #0fb8a0; }
+.nav-back { font-size: 11px; color: #888; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.15s; }
+.nav-back:hover { color: #0d1a6b; }
+
+.page { max-width: 520px; margin: 0 auto; padding: 32px 20px 80px; }
+
+.pb {
+  background: #fff;
+  border-radius: 10px;
+  overflow: visible;
+  border: 1px solid rgba(13,26,107,0.1);
+  position: relative;
+  box-shadow: 0 4px 24px rgba(13,26,107,0.1), 0 1px 4px rgba(13,26,107,0.06);
+}
+.pb-holes {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 28px;
+  background: #fff; border-right: 1px solid rgba(13,26,107,0.07);
+  border-radius: 10px 0 0 10px;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: space-evenly; padding: 20px 0; z-index: 1;
+}
+.pb-hole {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #eef1f8; border: 1px solid rgba(13,26,107,0.12);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+}
+.pb-inner { margin-left: 28px; border-radius: 0 10px 10px 0; overflow: hidden; }
+
+.pb-header {
+  background: #0d1a6b;
+  border-bottom: 3px solid #0fb8a0;
+  padding: 20px 20px;
+  display: flex; align-items: center; gap: 18px;
+  min-height: 120px;
+}
+.pb-avatar {
+  width: 108px; height: 108px;
+  border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #5b3fa6, #1a6fc4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; font-weight: 700; color: rgba(255,255,255,0.8);
+  border: 4px solid rgba(255,255,255,0.9);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  font-family: 'Noto Sans JP', sans-serif;
+  margin-top: -16px; margin-bottom: -16px;
+  position: relative; z-index: 2;
+}
+.pb-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.pb-header-text { flex: 1; min-width: 0; }
+.pb-member-no { font-size: 8px; letter-spacing: 0.3em; color: #0fb8a0; margin-bottom: 7px; font-family: 'Nunito Sans', sans-serif; }
+.pb-nickname { font-family: 'Noto Sans JP', sans-serif; font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 5px; line-height: 1.2; }
+.pb-realname { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 3px; letter-spacing: 0.06em; }
+.pb-org { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+.pb-section { padding: 18px 20px; border-bottom: 1px solid rgba(13,26,107,0.07); }
+.pb-section:last-child { border-bottom: none; }
+.pb-section-title {
+  font-size: 8px; letter-spacing: 0.3em; color: #0fb8a0;
+  font-family: 'Nunito Sans', sans-serif; font-weight: 700;
+  margin-bottom: 13px; display: flex; align-items: center; gap: 8px;
+}
+.pb-section-title::after { content: ''; flex: 1; height: 1px; background: rgba(15,184,160,0.25); }
+
+.pb-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pb-field { background: #f5f7fc; border-radius: 8px; padding: 9px 12px; border: 1px solid rgba(13,26,107,0.07); }
+.pb-field-full { background: #f5f7fc; border-radius: 8px; padding: 9px 12px; margin-top: 8px; border: 1px solid rgba(13,26,107,0.07); }
+.pb-field-label { font-size: 8px; color: #999; letter-spacing: 0.15em; margin-bottom: 4px; font-family: 'Nunito Sans', sans-serif; }
+.pb-field-val { font-size: 13px; color: #1a2a6b; line-height: 1.5; font-weight: 500; }
+
+/* ===== タイプブロック — 横並び ===== */
+.type-block {
+  margin-top: 8px; background: #f5f7fc;
+  border: 1px solid rgba(13,26,107,0.07);
+  border-radius: 8px; padding: 10px 13px;
+  display: flex; align-items: center; gap: 10px;
+}
+.type-emoji { font-size: 22px; flex-shrink: 0; }
+.type-label { font-size: 8px; color: #999; letter-spacing: 0.15em; margin-bottom: 3px; font-family: 'Nunito Sans', sans-serif; }
+.type-row { display: flex; align-items: center; gap: 10px; }
+.type-name { font-size: 14px; font-weight: 700; color: #0d1a6b; }
+/* リンクを名前と横並びに */
+.type-link {
+  font-size: 9px; color: #0fb8a0; text-decoration: none; letter-spacing: 0.06em;
+  white-space: nowrap;
+  border-left: 1px solid rgba(15,184,160,0.3); padding-left: 10px;
+}
+.type-link:hover { text-decoration: underline; }
+
+.type-cta {
+  margin-top: 8px;
+  display: flex; align-items: center; gap: 13px;
+  border: 1.5px dashed rgba(15,184,160,0.5);
+  border-radius: 8px; padding: 12px 14px;
+  background: rgba(15,184,160,0.04);
+  text-decoration: none; transition: background 0.15s;
+}
+.type-cta:hover { background: rgba(15,184,160,0.09); }
+.type-cta-icon { font-size: 22px; opacity: 0.4; flex-shrink: 0; }
+.type-cta-main { font-size: 12px; font-weight: 700; color: #0fb8a0; }
+.type-cta-sub { font-size: 9px; color: #aaa; margin-top: 3px; line-height: 1.5; }
+
+.pb-fb {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  margin-top: 10px; padding: 11px 16px;
+  background: #1877F2; border-radius: 8px;
+  text-decoration: none; color: #fff;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  transition: opacity 0.15s;
+}
+.pb-fb:hover { opacity: 0.85; }
+.pb-fb-logo {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 900; color: #1877F2;
+  font-family: Georgia, serif;
+}
+
+.pb-give { background: #f5f7fc; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; border: 1px solid rgba(13,26,107,0.07); }
+.pb-give:last-child { margin-bottom: 0; }
+
+.pb-message {
+  background: rgba(15,184,160,0.06); border: 1px solid rgba(15,184,160,0.25);
+  border-radius: 8px; padding: 14px 16px;
+  font-size: 14px; color: #1a2a6b; line-height: 2;
+}
+
+.update-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 16px; padding: 14px;
+  background: #fff; border: 1.5px solid rgba(13,26,107,0.2);
+  border-radius: 10px; text-decoration: none; color: #0d1a6b;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  transition: background 0.15s, border-color 0.15s; width: 100%;
+}
+.update-btn:hover { background: #f5f7fc; border-color: #0d1a6b; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="members.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-back" href="members.html">← 一覧に戻る</a>
+</nav>
+
+<div class="page">
+  <div class="pb">
+    <div class="pb-holes">
+      <div class="pb-hole"></div><div class="pb-hole"></div>
+      <div class="pb-hole"></div><div class="pb-hole"></div>
+      <div class="pb-hole"></div><div class="pb-hole"></div>
+      <div class="pb-hole"></div>
+    </div>
+    <div class="pb-inner">
+
+      <div class="pb-header">
+        <div class="pb-avatar" id="avatar"></div>
+        <div class="pb-header-text">
+          <div class="pb-member-no" id="member-no">MEMBER #—</div>
+          <div class="pb-nickname" id="nickname">読み込み中...</div>
+          <div class="pb-realname" id="realname"></div>
+          <div class="pb-org" id="org"></div>
+        </div>
+      </div>
+
+      <div class="pb-section">
+        <div class="pb-section-title">BASIC INFO</div>
+        <div class="pb-grid2">
+          <div class="pb-field">
+            <div class="pb-field-label">出身地</div>
+            <div class="pb-field-val" id="hometown">—</div>
+          </div>
+          <div class="pb-field">
+            <div class="pb-field-label">参加回数</div>
+            <div class="pb-field-val" id="enjin-count">—</div>
+          </div>
+        </div>
+        <div class="pb-field-full">
+          <div class="pb-field-label">参加予定のイニシアチブ</div>
+          <div class="pb-field-val" id="initiative">—</div>
+        </div>
+        <div id="type-wrap"></div>
+        <a class="pb-fb" id="fb-btn" href="#" target="_blank" style="display:none;">
+          <div class="pb-fb-logo">f</div>
+          Facebookプロフィールを見る
+        </a>
+      </div>
+
+      <div class="pb-section">
+        <div class="pb-section-title">GIVE & NEED</div>
+        <div class="pb-give">
+          <div class="pb-field-label">ギブできること</div>
+          <div class="pb-field-val" id="can-give">—</div>
+        </div>
+        <div class="pb-give">
+          <div class="pb-field-label">助けてほしいこと</div>
+          <div class="pb-field-val" id="need-help">—</div>
+        </div>
+      </div>
+
+      <div class="pb-section">
+        <div class="pb-section-title">MESSAGE</div>
+        <div class="pb-message" id="message">—</div>
+      </div>
+
+    </div>
+  </div>
+
+  <a class="update-btn" id="update-btn" href="edit.html">
+    ✏️　プロフィールを更新する
+  </a>
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+  requireAuth();
+
+  async function load() {
+    const id = getParam('id');
+    if (!id) { location.href = 'members.html'; return; }
+
+    const res = await gasGet({ action: 'participants' });
+    if (!res.ok || !res.data) return;
+
+    const p = res.data.find(x => x.edit_id === id);
+    if (!p) { location.href = 'members.html'; return; }
+
+    document.title = `${p.nickname || p.name} | ENJIN 2026 GUIDE BOOK`;
+
+    // アバター
+    const av = document.getElementById('avatar');
+    if (p.photo_url) {
+      av.innerHTML = `<img src="${p.photo_url}" alt="${p.nickname || p.name}">`;
+    } else {
+      av.textContent = initials(p.nickname || p.name);
+    }
+
+    // ヘッダー
+    document.getElementById('member-no').textContent =
+      `MEMBER #${String(res.data.indexOf(p) + 1).padStart(3, '0')}`;
+    document.getElementById('nickname').textContent = p.nickname || p.name || '—';
+    document.getElementById('realname').textContent = p.name || '';
+    document.getElementById('org').textContent =
+      [p.organization, p.title].filter(Boolean).join(' / ');
+
+    // BASIC INFO
+    document.getElementById('hometown').textContent = p.hometown || '—';
+    document.getElementById('enjin-count').textContent = formatEnjinCount(p.enjin_count);
+    document.getElementById('initiative').textContent = p.initiative || '—';
+
+    // ENJINタイプ
+    const typeWrap = document.getElementById('type-wrap');
+    if (p.enjin_type && ENJIN_TYPES[p.enjin_type]) {
+      const t = ENJIN_TYPES[p.enjin_type];
+      typeWrap.innerHTML = `
+        <div class="type-block">
+          <div class="type-emoji">${t.emoji}</div>
+          <div style="flex:1;min-width:0;">
+            <div class="type-label">ENJIN TYPE</div>
+            <div class="type-row">
+              <div class="type-name">${t.name}</div>
+              <a class="type-link" href="https://enjin-camp.github.io/type/result.html?type=${p.enjin_type}" target="_blank">タイプ詳細を見る →</a>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      typeWrap.innerHTML = `
+        <a class="type-cta" href="https://enjin-camp.github.io/type/" target="_blank">
+          <div class="type-cta-icon">🔍</div>
+          <div>
+            <div class="type-cta-main">タイプ診断を受ける →</div>
+            <div class="type-cta-sub">あなたはどのタイプ？結果をプロフィールに反映できます</div>
+          </div>
+        </a>`;
+    }
+
+    // Facebook（空なら非表示）
+    const fbEl = document.getElementById('fb-btn');
+    if (p.facebook_url) {
+      fbEl.href = p.facebook_url;
+      fbEl.style.display = 'flex';
+    }
+
+    // GIVE & NEED
+    document.getElementById('can-give').textContent = p.can_give || '（未記入）';
+    document.getElementById('need-help').textContent = p.need_help || '（未記入）';
+
+    // MESSAGE
+    document.getElementById('message').textContent = p.message || '（未記入）';
+
+    // 更新ボタン
+    document.getElementById('update-btn').href = `edit.html?id=${p.edit_id}`;
+  }
+
+  load();
+</script>
+</body>
+</html>
