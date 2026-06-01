@@ -249,7 +249,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #eef1f8; min-height:
     // アバター
     const av = document.getElementById('avatar');
     if (p.photo_url) {
-      av.innerHTML = `<img src="${p.photo_url}" alt="${p.nickname || p.name}">`;
+      av.innerHTML = `<img src="${convertDriveUrl(p.photo_url)}" alt="${p.nickname || p.name}">`;
     } else {
       av.textContent = initials(p.nickname || p.name);
     }

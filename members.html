@@ -97,7 +97,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   function renderCard(p, index) {
     const colorClass = COLORS[index % COLORS.length];
     const photoEl = p.photo_url
-      ? `<img src="${p.photo_url}" alt="${p.nickname || p.name}">`
+      ? `<img src="${convertDriveUrl(p.photo_url)}" alt="${p.nickname || p.name}">`
       : `<div class="card-photo-initial">${initials(p.nickname || p.name)}</div>`;
     const tagEl = p.initiative
       ? `<span class="card-tag">${p.initiative}</span>`

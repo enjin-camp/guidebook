@@ -49,6 +49,15 @@ function initials(str) {
   return str ? str.charAt(0) : '?';
 }
 
+function convertDriveUrl(url) {
+  if (!url) return '';
+  const m1 = url.match(/\/d\/([\w-]+)/);
+  if (m1) return `https://drive.google.com/thumbnail?id=${m1[1]}&sz=w400`;
+  const m2 = url.match(/[?&]id=([\w-]+)/);
+  if (m2) return `https://drive.google.com/thumbnail?id=${m2[1]}&sz=w400`;
+  return url;
+}
+
 function formatEnjinCount(val) {
   if (!val) return '—';
   if (val.includes('初めて')) return '初参加';
