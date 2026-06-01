@@ -88,6 +88,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:#eef1f8;min-height:100vh;}
       <textarea id="need-help" placeholder="例：地方自治体とのパートナーシップ、資金調達など"></textarea>
       <div class="field-hint">今困っていること・相談したいこと</div>
     </div>
+    <div class="field">
+      <label>メッセージ</label>
+      <textarea id="message" placeholder="例：今年のENJINでは、〇〇に挑戦したいと思っています。ぜひ一緒に議論しましょう！"></textarea>
+      <div class="field-hint">今年のENJINへの意気込みや、出会いたい人へのメッセージ</div>
+    </div>
     <button class="btn" id="save-btn">保存する</button>
     <div class="error" id="save-error"></div>
   </div>
@@ -120,6 +125,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#eef1f8;min-height:100vh;}
     if (profile.enjin_type) document.getElementById('enjin-type').value = profile.enjin_type;
     document.getElementById('can-give').value = profile.can_give || '';
     document.getElementById('need-help').value = profile.need_help || '';
+    document.getElementById('message').value = profile.message || '';
     showStep(2);
   }
 
@@ -182,6 +188,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#eef1f8;min-height:100vh;}
       enjin_type: document.getElementById('enjin-type').value,
       can_give: document.getElementById('can-give').value.trim(),
       need_help: document.getElementById('need-help').value.trim(),
+      message: document.getElementById('message').value.trim(),
     });
 
     btn.disabled = false; btn.textContent = '保存する';
