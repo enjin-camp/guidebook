@@ -31,7 +31,8 @@ button:disabled{opacity:0.5;cursor:default;}
 </div>
 <script src="guidebook.js"></script>
 <script>
-  if (isAuthed()) location.href = 'members.html';
+  const nextPage = new URLSearchParams(location.search).get('next') || 'members.html';
+  if (isAuthed()) location.href = nextPage;
 
   async function tryLogin() {
     const pw = document.getElementById('pw').value.trim();
@@ -42,7 +43,7 @@ button:disabled{opacity:0.5;cursor:default;}
     const res = await gasGet({ action: 'auth', password: pw });
     if (res.ok) {
       setAuthed();
-      location.href = 'members.html';
+      location.href = nextPage;
     } else {
       document.getElementById('err').textContent = 'パスワードが正しくありません';
       btn.textContent = '入場する';

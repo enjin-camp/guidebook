@@ -37,7 +37,8 @@ function setAuthed() {
 
 function requireAuth() {
   if (!isAuthed()) {
-    window.location.href = 'index.html';
+    const next = encodeURIComponent(location.pathname.split('/').pop() + location.search);
+    window.location.href = 'index.html?next=' + next;
   }
 }
 

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PROGRAM — ENJIN 2026 GUIDE BOOK</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height: 100vh; color: #fff; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,26,107,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo { font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.15em; color: #fff; text-decoration: none; }
+.nav-logo span { color: #0fb8a0; }
+.nav-back { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.nav-back:hover { color: #fff; }
+
+.hero { padding: 44px 24px 28px; text-align: center; }
+.hero-eyebrow { font-family: 'Nunito Sans', sans-serif; font-size: 11px; letter-spacing: 0.3em; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.hero-title { font-family: 'Nunito Sans', sans-serif; font-size: 30px; font-weight: 900; letter-spacing: 0.15em; color: #0fb8a0; }
+.hero-accent { width: 36px; height: 3px; background: #0fb8a0; border-radius: 2px; margin: 12px auto 0; }
+
+.page-wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* タブ */
+.day-tabs { display: flex; gap: 10px; margin-top: 36px; }
+.day-tab {
+  flex: 1; padding: 14px 10px;
+  border-radius: 12px; text-align: center;
+  cursor: pointer; transition: all 0.2s; user-select: none;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.22);
+  position: relative;
+}
+.day-tab.active { background: #0fb8a0; border-color: #0fb8a0; }
+.day-tab.active::after {
+  content: '';
+  position: absolute; bottom: -10px; left: 50%;
+  transform: translateX(-50%);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #0fb8a0;
+}
+.day-tab-num { font-family: 'Nunito Sans', sans-serif; font-size: 16px; font-weight: 900; color: rgba(255,255,255,0.65); }
+.day-tab.active .day-tab-num { color: #fff; }
+.day-tab-date { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; }
+.day-tab.active .day-tab-date { color: rgba(255,255,255,0.85); }
+
+/* スケジュール */
+.schedule { margin-top: 28px; }
+.schedule-row {
+  display: grid; grid-template-columns: 60px 1fr;
+  gap: 16px; padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+  align-items: start;
+}
+.schedule-row:last-child { border-bottom: none; }
+.schedule-row.break { padding: 10px 0; }
+.break .s-time { font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.3); }
+.break .s-title { font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 400; }
+
+.s-time { font-family: 'Noto Sans JP', sans-serif; font-size: 15px; font-weight: 700; line-height: 1; color: #fff; padding-top: 3px; }
+.s-time.dim { color: rgba(255,255,255,0.3); font-weight: 400; font-size: 13px; }
+
+.s-tag {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 3px 10px; border-radius: 20px; margin-bottom: 7px;
+}
+.tag-opening     { background: rgba(15,184,160,0.15); color: #0fb8a0; border: 1px solid rgba(15,184,160,0.3); }
+.tag-keynote     { background: rgba(139,92,246,0.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.3); }
+.tag-thema       { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.15); }
+.tag-enjin       { background: rgba(15,184,160,0.1); color: #0fb8a0; border: 1px solid rgba(15,184,160,0.2); }
+.tag-special     { background: rgba(251,146,60,0.15); color: #fca569; border: 1px solid rgba(251,146,60,0.3); }
+.tag-talk        { background: rgba(96,165,250,0.15); color: #93c5fd; border: 1px solid rgba(96,165,250,0.3); }
+.tag-interactive { background: rgba(52,211,153,0.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.25); }
+.tag-individual  { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.12); }
+.tag-action      { background: rgba(251,191,36,0.12); color: #fcd34d; border: 1px solid rgba(251,191,36,0.25); }
+.tag-closing     { background: rgba(239,68,68,0.12); color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
+.tag-share       { background: rgba(251,191,36,0.12); color: #fcd34d; border: 1px solid rgba(251,191,36,0.25); }
+
+.s-title { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.6; }
+.s-plain .s-title { color: rgba(255,255,255,0.35); font-weight: 400; font-size: 13px; }
+.s-speakers { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 5px; line-height: 1.7; }
+.s-desc { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 5px; line-height: 1.7; }
+
+.day-content { display: none; }
+.day-content.active { display: block; }
+
+@media (max-width: 480px) {
+  .nav-back span { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a class="nav-back" href="home.html">← <span>ホーム</span></a>
+  <a class="nav-logo" href="home.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <span style="width:60px"></span>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">SCHEDULE</div>
+  <div class="hero-title">PROGRAM</div>
+  <div class="hero-accent"></div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="day-tabs">
+    <div class="day-tab active" onclick="switchDay(1)">
+      <div class="day-tab-num">DAY 1</div>
+      <div class="day-tab-date">6/26 FRI</div>
+    </div>
+    <div class="day-tab" onclick="switchDay(2)">
+      <div class="day-tab-num">DAY 2</div>
+      <div class="day-tab-date">6/27 SAT</div>
+    </div>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day-content active" id="day1">
+    <div class="schedule">
+      <div class="schedule-row">
+        <div class="s-time">12:00</div>
+        <div><span class="s-tag tag-opening">Opening</span><div class="s-title">オープニング・チェックイン</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">12:30</div>
+        <div>
+          <span class="s-tag tag-keynote">Keynote</span>
+          <div class="s-title">希望がめぐる社会のグランドデザイン── 個別最適を超え、協働で挑む戦略とは</div>
+          <div class="s-speakers">株式会社COTEN CEO 深井龍之介さん／NPO法人クロスフィールズ 代表理事 小沼大地さん／株式会社ボーダレス・ジャパン CEO 田口一成</div>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">13:20</div>
+        <div><span class="s-tag tag-thema">Thema</span><div class="s-title">ENJIN Table 概要説明</div></div>
+      </div>
+      <div class="schedule-row break">
+        <div class="s-time">13:45</div>
+        <div><div class="s-title">移動・休憩　10分</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">14:00</div>
+        <div>
+          <span class="s-tag tag-enjin">ENJIN Table</span>
+          <div class="s-title">8つのイニシアチブに分かれて、希望がめぐる社会のグランドデザインを描く</div>
+          <div class="s-desc">【対象軸】不登校の子ども／介護未満の高齢者／就労困難な障がい者／貧困家庭の子ども／外国人労働者・移民<br>【構造軸】持続可能な地域自治の再設計／生態系が崩れた森林の再設計／サーキュラーな街づくり</div>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">18:00</div>
+        <div><span class="s-tag tag-share">Share</span><div class="s-title">各イニシアチブの発表・全体共有</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">19:30</div>
+        <div><div class="s-title">夕食・懇親会</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">MN</div>
+        <div><div class="s-title">Midnight ENJIN</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-content" id="day2">
+    <div class="schedule">
+      <div class="schedule-row">
+        <div class="s-time">8:00</div>
+        <div>
+          <span class="s-tag tag-special">Special Contents</span>
+          <div class="s-title">沖縄戦体験者への聞き取りをもとに制作された、平和劇の観劇</div>
+          <div class="s-speakers">株式会社ナラティブ 代表取締役 永田健作さん、劇団員の皆様</div>
+        </div>
+      </div>
+      <div class="schedule-row break">
+        <div class="s-time">9:00</div>
+        <div><div class="s-title">休憩　10分</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">9:10</div>
+        <div><span class="s-tag tag-interactive">Interactive session</span><div class="s-title">理想だけでは守れない。国家の安全保障と、私たちの平和を考える</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">9:55</div>
+        <div><span class="s-tag tag-talk">Talk session</span><div class="s-title">世界が揺らぐ時代に、平和をどう守り、どうつくるのか</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">10:45</div>
+        <div><span class="s-tag tag-share">Share</span><div class="s-title">ピースフルリーダーシップの行動指針と、PEACE ENJINの活動について</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">10:55</div>
+        <div><span class="s-tag tag-individual">Individual work</span><div class="s-title">個人ワーク</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">11:10</div>
+        <div><div class="s-title">グルーピング</div></div>
+      </div>
+      <div class="schedule-row break">
+        <div class="s-time">11:20</div>
+        <div><div class="s-title">移動・休憩　10分</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">11:30</div>
+        <div><span class="s-tag tag-action">Action planning</span><div class="s-title">グループに分かれ、アクションプランニング</div></div>
+      </div>
+      <div class="schedule-row break">
+        <div class="s-time">12:15</div>
+        <div><div class="s-title">移動・休憩　10分</div></div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">12:25</div>
+        <div><span class="s-tag tag-closing">Closing</span><div class="s-title">全体発表・クロージング</div></div>
+      </div>
+      <div class="schedule-row s-plain">
+        <div class="s-time dim">12:50</div>
+        <div><div class="s-title">解散</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+requireAuth();
+function switchDay(n) {
+  document.querySelectorAll('.day-tab').forEach((t,i) => t.classList.toggle('active', i===n-1));
+  document.querySelectorAll('.day-content').forEach((c,i) => c.classList.toggle('active', i===n-1));
+}
+</script>
+</body>
+</html>
