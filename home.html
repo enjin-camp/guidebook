@@ -34,6 +34,15 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 .date-badge-sep { color: rgba(15,184,160,0.4); }
 .date-badge-sub { font-size: 11px; color: rgba(255,255,255,0.45); }
 
+.countdown { margin-top: 8px; margin-bottom: 20px; text-align: center; }
+.countdown-label { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.12em; margin-bottom: 14px; }
+.countdown-tiles { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.countdown-tile {
+  font-family: 'Nunito Sans', sans-serif; font-size: 48px; font-weight: 700;
+  color: #fff; letter-spacing: -0.02em; line-height: 1;
+}
+.countdown-unit { font-size: 18px; color: rgba(255,255,255,0.6); align-self: flex-end; padding-bottom: 4px; }
+
 .section-wrap { max-width: 800px; margin: 0 auto; padding: 0 24px; }
 
 .notice {
@@ -57,6 +66,8 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 }
 .nav-card:hover { transform: translateY(-4px); border-color: rgba(15,184,160,0.45); }
 .nav-card.highlight { border-color: rgba(15,184,160,0.4); background: rgba(15,184,160,0.08); }
+.nav-card.soon { cursor: default; pointer-events: none; }
+.card-soon { font-size: 13px; margin-top: 14px; display: block; color: #fff; }
 .card-icon { font-size: 32px; margin-bottom: 14px; }
 .card-accent { width: 28px; height: 2px; background: #0fb8a0; border-radius: 2px; margin-bottom: 12px; }
 .card-title { font-family: 'Nunito Sans', sans-serif; font-size: 17px; font-weight: 900; letter-spacing: 0.08em; color: #fff; margin-bottom: 6px; }
@@ -100,9 +111,16 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 
 <div class="section-wrap">
 
+  <div class="countdown">
+    <div class="countdown-label" id="countdown-label">開催まであと</div>
+    <div class="countdown-tiles" id="countdown-tiles">
+      <div class="countdown-tile">—</div>
+    </div>
+  </div>
+
   <div class="notice">
     <div class="notice-text">
-      <b>【おしらせ】</b>あなたは何タイプ？ 30秒でわかるENJIN診断つくりました💁‍♀️ →
+      <b>【おしらせ】</b>あなたは何タイプ？ 30秒でわかるENJIN診断つくりました💁‍♀️
     </div>
     <a class="notice-btn" href="https://enjin-camp.github.io/type/" target="_blank" rel="noopener">今すぐ診断🔥</a>
   </div>
@@ -126,7 +144,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
       <div class="card-icon">🗓</div>
       <div class="card-accent"></div>
       <div class="card-title">PROGRAM</div>
-      <div class="card-desc">タイムテーブル・プログラム詳細<br>フロアマップ・部屋割り</div>
+      <div class="card-desc">タイムテーブル・プログラム詳細<br>フロアマップ</div>
       <span class="card-arrow">→ プログラムを見る</span>
     </a>
     <a class="nav-card" href="give-need.html">
@@ -136,6 +154,13 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
       <div class="card-desc">みんなのGIVEとNEED<br>コトから逆引きして探す</div>
       <span class="card-arrow">→ 一覧を見る</span>
     </a>
+    <div class="nav-card soon">
+      <div class="card-icon">🛏</div>
+      <div class="card-accent"></div>
+      <div class="card-title">部屋割り</div>
+      <div class="card-desc">宿泊部屋の割り当て一覧</div>
+      <span class="card-soon">🚧 COMING SOON</span>
+    </div>
   </div>
 
   <div class="partners-section">
@@ -153,6 +178,26 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 </div>
 
 <script src="guidebook.js"></script>
-<script>requireAuth();</script>
+<script>
+requireAuth();
+
+(function() {
+  const event = new Date('2026-06-26T12:00:00+09:00');
+  const now = new Date();
+  const diff = event - now;
+  const tiles = document.getElementById('countdown-tiles');
+  const label = document.getElementById('countdown-label');
+  if (diff <= 0) {
+    tiles.innerHTML = '<div class="countdown-tile">🎉</div>';
+    label.textContent = 'いよいよ開催！';
+    document.querySelector('.countdown-unit').textContent = '';
+  } else {
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    tiles.innerHTML = String(days).split('').map(d =>
+      `<div class="countdown-tile">${d}</div>`
+    ).join('') + '<span class="countdown-unit">日</span>';
+  }
+})();
+</script>
 </body>
 </html>
