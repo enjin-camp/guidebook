@@ -165,7 +165,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
       return;
     }
 
-    const members = res.data;
+    const members = res.data.slice().sort(() => Math.random() - 0.5);
 
     const giveCards = members
       .map((p, i) => ({ p, i }))
