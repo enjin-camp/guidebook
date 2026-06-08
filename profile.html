@@ -549,6 +549,11 @@ async function load() {
   renderMessage(isOwn);
   renderType(isOwn, !!p.enjin_type);
   renderGive(isOwn);
+
+  // 自分の編集URLではないアクセスのみ計測（fire-and-forget）
+  if (!isOwn) {
+    gasGet({ action: 'track_view', id: profileId }).catch(() => {});
+  }
 }
 
 load();
