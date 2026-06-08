@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENJIN 2026 GUIDE BOOK — GIVE & NEED</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height: 100vh; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,26,107,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo { font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.15em; color: #fff; text-decoration: none; }
+.nav-logo span { color: #0fb8a0; }
+.nav-edit { font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+.nav-edit:hover { opacity: 0.7; }
+
+.hero { padding: 48px 24px 32px; text-align: center; }
+.hero-eyebrow { font-size: 11px; letter-spacing: 0.35em; color: rgba(255,255,255,0.4); margin-bottom: 12px; font-family: 'Nunito Sans', sans-serif; }
+.hero-title { font-family: 'Nunito Sans', sans-serif; font-size: 32px; font-weight: 900; letter-spacing: 0.1em; color: #fff; margin-bottom: 10px; }
+.hero-title span { color: #0fb8a0; }
+.hero-accent { width: 40px; height: 3px; background: #0fb8a0; border-radius: 2px; margin: 0 auto 16px; }
+.hero-sub { font-size: 13px; color: rgba(255,255,255,0.45); }
+
+.tab-bar {
+  max-width: 900px; margin: 0 auto 28px; padding: 0 24px;
+  display: flex; gap: 8px; justify-content: center;
+}
+.tab-btn {
+  font-family: 'Nunito Sans', sans-serif; font-size: 14px; font-weight: 800;
+  letter-spacing: 0.12em; padding: 10px 36px; border-radius: 40px;
+  border: 2px solid rgba(255,255,255,0.18); background: transparent;
+  color: rgba(255,255,255,0.45); cursor: pointer; transition: all 0.2s;
+  -webkit-appearance: none; appearance: none; outline: none;
+}
+.tab-btn.active-give { background: rgba(15,184,160,0.15); border-color: #0fb8a0; color: #0fb8a0; }
+.tab-btn.active-need { background: rgba(255,184,60,0.15); border-color: #ffb83c; color: #ffb83c; }
+
+.grid-wrap { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+.card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+
+@media (max-width: 700px) { .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+@media (max-width: 460px) { .card-grid { grid-template-columns: minmax(0, 1fr); } }
+
+.gn-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 16px 14px 12px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 12px;
+  transition: transform 0.15s, border-color 0.15s;
+  min-width: 0;
+}
+.gn-card.give-card:hover { transform: translateY(-3px); border-color: rgba(15,184,160,0.3); }
+.gn-card.need-card:hover { transform: translateY(-3px); border-color: rgba(255,184,60,0.3); }
+
+.card-text { font-size: 13px; font-weight: 500; color: #fff; line-height: 1.7; flex: 1; }
+
+.card-person {
+  display: flex; align-items: center; gap: 8px;
+  padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.07);
+  text-decoration: none; transition: opacity 0.15s;
+}
+.card-person:hover { opacity: 0.75; }
+
+.person-avatar {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  overflow: hidden; background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.person-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.person-avatar-initial { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); }
+
+.person-name { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.person-arrow { margin-left: auto; font-size: 11px; color: rgba(255,255,255,0.25); flex-shrink: 0; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.loading { text-align: center; padding: 80px 24px; color: rgba(255,255,255,0.4); font-size: 13px; letter-spacing: 0.1em; }
+.no-result { text-align: center; padding: 60px 24px; color: rgba(255,255,255,0.35); font-size: 13px; grid-column: 1/-1; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="home.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-edit" href="edit.html">プロフィールを編集</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">ENJIN CAMP 2026</div>
+  <div class="hero-title">Give & <span>Need</span></div>
+  <div class="hero-accent"></div>
+  <div class="hero-sub">コトから仲間を探す。誰かのGIVEが、あなたのNEEDかもしれない。</div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active-give" id="btn-give" onclick="switchTab('give')">GIVE</button>
+  <button class="tab-btn" id="btn-need" onclick="switchTab('need')">NEED</button>
+</div>
+
+<div class="tab-panel active" id="panel-give">
+  <div class="grid-wrap">
+    <div class="card-grid" id="grid-give">
+      <div class="loading">読み込み中...</div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-panel" id="panel-need">
+  <div class="grid-wrap">
+    <div class="card-grid" id="grid-need">
+      <div class="loading">読み込み中...</div>
+    </div>
+  </div>
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+  requireAuth();
+
+  function switchTab(type) {
+    document.getElementById('btn-give').className = 'tab-btn' + (type === 'give' ? ' active-give' : '');
+    document.getElementById('btn-need').className = 'tab-btn' + (type === 'need' ? ' active-need' : '');
+    document.getElementById('panel-give').className = 'tab-panel' + (type === 'give' ? ' active' : '');
+    document.getElementById('panel-need').className = 'tab-panel' + (type === 'need' ? ' active' : '');
+  }
+
+  function renderCard(p, idx, type) {
+    const text = type === 'give' ? p.can_give : p.need_help;
+    const labelClass = type === 'give' ? 'give' : 'need';
+    const cardClass  = type === 'give' ? 'give-card' : 'need-card';
+    const label      = type === 'give' ? 'GIVE' : 'NEED';
+
+    const avatarEl = p.photo_url
+      ? `<img src="${convertDriveUrl(p.photo_url)}" alt="${p.nickname || p.name}">`
+      : `<div class="person-avatar-initial">${initials(p.nickname || p.name)}</div>`;
+
+    return `
+      <div class="gn-card ${cardClass}">
+        <div class="card-text">${escHtml(text)}</div>
+        <a class="card-person" href="profile.html?idx=${idx}">
+          <div class="person-avatar">${avatarEl}</div>
+          <div class="person-name">${escHtml(p.nickname || p.name || '—')}</div>
+          <div class="person-arrow">→</div>
+        </a>
+      </div>`;
+  }
+
+  function escHtml(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  async function load() {
+    const res = await gasGet({ action: 'participants' });
+    if (!res.ok || !res.data) {
+      document.getElementById('grid-give').innerHTML = '<div class="loading">読み込みに失敗しました</div>';
+      document.getElementById('grid-need').innerHTML = '<div class="loading">読み込みに失敗しました</div>';
+      return;
+    }
+
+    const members = res.data;
+
+    const giveCards = members
+      .map((p, i) => ({ p, i }))
+      .filter(({ p }) => p.can_give && p.can_give.trim())
+      .map(({ p, i }) => renderCard(p, i, 'give'))
+      .join('');
+
+    const needCards = members
+      .map((p, i) => ({ p, i }))
+      .filter(({ p }) => p.need_help && p.need_help.trim())
+      .map(({ p, i }) => renderCard(p, i, 'need'))
+      .join('');
+
+    document.getElementById('grid-give').innerHTML = giveCards || '<div class="no-result">まだGIVEが登録されていません</div>';
+    document.getElementById('grid-need').innerHTML = needCards || '<div class="no-result">まだNEEDが登録されていません</div>';
+  }
+
+  load();
+  setInterval(load, 2 * 60 * 1000); // 2分ごとに自動更新
+</script>
+</body>
+</html>

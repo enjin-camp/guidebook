@@ -54,7 +54,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#eef1f8;min-height:100vh;}
     <div class="field">
       <label>編集ID</label>
       <input type="text" id="edit-id" placeholder="例：enjin-a7x2" autocomplete="off" spellcheck="false">
-      <div class="field-hint">招待メールに記載されています</div>
+      <div class="field-hint">事務局からの案内メールに記載されています</div>
     </div>
     <button class="btn" id="id-btn">確認する</button>
     <div class="error" id="id-error"></div>
@@ -151,7 +151,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#eef1f8;min-height:100vh;}
     });
   } else {
     // URLにidがない場合はStep1（手動入力）を表示
-    document.getElementById('page-sub').textContent = '招待メールに記載の編集IDを入力して、プロフィールを登録・更新してください。';
+    document.getElementById('page-sub').textContent = '事務局からの案内メールに記載の編集IDを入力して、プロフィールを登録・更新してください。';
     showStep(1);
   }
 
@@ -171,7 +171,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#eef1f8;min-height:100vh;}
     }
     const profile = res.data.find(p => p.edit_id === editId);
     if (!profile) {
-      document.getElementById('id-error').textContent = '編集IDが見つかりません。招待メールをご確認ください。';
+      document.getElementById('id-error').textContent = '編集IDが見つかりません。事務局からの案内メールをご確認ください。';
       return;
     }
     populateForm(profile);
