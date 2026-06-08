@@ -118,6 +118,17 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   <select class="filter-select" id="filter-initiative">
     <option value="">イニシアチブ：すべて</option>
   </select>
+  <select class="filter-select" id="filter-type">
+    <option value="">ENJINタイプ：すべて</option>
+    <option value="igniter">🔥 火を灯す人</option>
+    <option value="visionary">🌍 未来を描く人</option>
+    <option value="driver">🚀 動かす人</option>
+    <option value="cultivator">🌱 耕す人</option>
+    <option value="connector">🔗 つなぐ人</option>
+    <option value="supporter">🛠️ 支える人</option>
+    <option value="observer">🧭 俯瞰する人</option>
+    <option value="seeker">🫧 余白を生む人</option>
+  </select>
   <button class="filter-reset" id="filter-reset">リセット</button>
 </div>
 
@@ -168,11 +179,13 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   }
 
   function applyFilter() {
-    const hometown  = document.getElementById('filter-hometown').value;
+    const hometown   = document.getElementById('filter-hometown').value;
     const initiative = document.getElementById('filter-initiative').value;
+    const enjinType  = document.getElementById('filter-type').value;
     const filtered = allMembers.filter(p =>
-      (!hometown   || p.hometown  === hometown) &&
-      (!initiative || p.initiative === initiative)
+      (!hometown   || p.hometown   === hometown) &&
+      (!initiative || p.initiative === initiative) &&
+      (!enjinType  || p.enjin_type === enjinType)
     );
     const grid = document.getElementById('grid');
     grid.innerHTML = filtered.length
@@ -194,9 +207,11 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 
     document.getElementById('filter-hometown').addEventListener('change', applyFilter);
     document.getElementById('filter-initiative').addEventListener('change', applyFilter);
+    document.getElementById('filter-type').addEventListener('change', applyFilter);
     document.getElementById('filter-reset').addEventListener('click', () => {
       document.getElementById('filter-hometown').value = '';
       document.getElementById('filter-initiative').value = '';
+      document.getElementById('filter-type').value = '';
       applyFilter();
     });
   }
