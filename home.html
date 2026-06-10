@@ -57,6 +57,17 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
   padding: 7px 16px; border-radius: 20px; text-decoration: none; white-space: nowrap;
 }
+.type-mini-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 16px; justify-content: center;
+}
+.type-mini-chip {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; padding: 6px 13px; font-size: 12px;
+  color: rgba(255,255,255,0.65); text-decoration: none; white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.type-mini-chip:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.28); color: #fff; }
 
 .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 20px; }
 .nav-card {
@@ -141,7 +152,7 @@ a.partner-card:hover { opacity: 0.8; }
     <div class="notice-text">
       <b>【おしらせ】</b>あなたは何タイプ？ 30秒でわかるENJIN診断つくりました💁‍♀️
     </div>
-    <a class="notice-btn" href="https://enjin-camp.github.io/type/" target="_blank" rel="noopener">今すぐ診断🔥</a>
+    <a class="notice-btn" href="type.html">今すぐ診断🔥</a>
   </div>
 
   <div class="cards-grid">
@@ -172,6 +183,13 @@ a.partner-card:hover { opacity: 0.8; }
       <div class="card-title">GIVE & NEED</div>
       <div class="card-desc">みんなのGIVEとNEED<br>コトから逆引きして探す</div>
       <span class="card-arrow">→ 一覧を見る</span>
+    </a>
+    <a class="nav-card" href="type.html">
+      <div class="card-icon">🔍</div>
+      <div class="card-accent"></div>
+      <div class="card-title">ENJIN TYPE</div>
+      <div class="card-desc">6問でわかるタイプ診断<br>同じタイプの仲間を見つけよう</div>
+      <span class="card-arrow">→ 診断する</span>
     </a>
     <div class="nav-card soon">
       <div class="card-icon">🛏</div>

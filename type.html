@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENJINタイプ診断 | ENJIN 2026 GUIDE BOOK</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; color: #fff; min-height: 100vh; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,26,107,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo { font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.15em; color: #fff; text-decoration: none; }
+.nav-logo span { color: #0fb8a0; }
+.nav-back { font-size: 11px; color: rgba(255,255,255,0.55); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.15s; }
+.nav-back:hover { color: #fff; }
+
+.wrap { max-width: 600px; margin: 0 auto; padding: 0 1.25rem 5rem; }
+
+.site-header { text-align: center; padding: 2.5rem 0 0; margin-bottom: 2rem; }
+.site-logo { font-family: 'Nunito Sans', sans-serif; font-size: 14px; font-weight: 900; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); }
+.site-logo span { color: #0fb8a0; }
+
+.progress-bar { height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 2.5rem; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; background: #0fb8a0; transition: width 0.4s ease; }
+
+.q-num { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem; letter-spacing: 0.12em; font-family: 'Nunito Sans', sans-serif; }
+.q-text { font-size: 20px; font-weight: 500; color: #fff; line-height: 1.7; margin-bottom: 2rem; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.opt {
+  padding: 16px 18px; border-radius: 12px; cursor: pointer;
+  font-size: 14px; font-family: 'Noto Sans JP', sans-serif; line-height: 1.6;
+  text-align: left; width: 100%; transition: all 0.15s;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.8);
+}
+.opt:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: #fff; }
+.opt.selected { background: rgba(15,184,160,0.12); border: 2px solid rgba(15,184,160,0.5); color: #fff; font-weight: 500; }
+
+.nav-btns { display: flex; justify-content: space-between; margin-top: 2rem; align-items: center; }
+.btn-back {
+  padding: 11px 24px; border-radius: 8px; font-size: 14px;
+  font-family: 'Noto Sans JP', sans-serif; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.2); background: transparent;
+  color: rgba(255,255,255,0.5); transition: background 0.15s, color 0.15s;
+}
+.btn-back:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.75); }
+.btn-next {
+  padding: 11px 32px; border-radius: 8px; font-size: 14px;
+  font-family: 'Noto Sans JP', sans-serif; font-weight: 700; cursor: pointer;
+  border: none; color: #fff; background: #0fb8a0; letter-spacing: 0.05em;
+  transition: opacity 0.15s;
+}
+.btn-next:hover { opacity: 0.85; }
+.btn-next:disabled { background: rgba(255,255,255,0.15); cursor: default; opacity: 1; }
+
+.intro { text-align: center; padding: 2rem 0 2rem; }
+.intro-mark { font-family: 'Nunito Sans', sans-serif; font-size: 13px; font-weight: 900; letter-spacing: 0.35em; color: #0fb8a0; margin-bottom: 2rem; }
+.intro-accent { width: 40px; height: 3px; background: #0fb8a0; border-radius: 2px; margin: 0 auto 1.75rem; }
+.intro-title { font-family: 'Nunito Sans', sans-serif; font-size: 30px; font-weight: 900; letter-spacing: 0.1em; color: #fff; margin-bottom: 0.5rem; line-height: 1.3; }
+.intro-title span { color: #0fb8a0; }
+.intro-sub { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.9; margin-bottom: 2.5rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+.start-btn {
+  padding: 15px 48px; background: #0fb8a0; color: #fff; border: none;
+  border-radius: 10px; font-size: 15px; font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700; cursor: pointer; letter-spacing: 0.08em; transition: opacity 0.15s; margin-bottom: 2.5rem;
+}
+.start-btn:hover { opacity: 0.85; }
+
+.hero { border-radius: 16px; padding: 2rem 1.75rem; margin-bottom: 1.75rem; }
+.hero-emoji { font-size: 44px; margin-bottom: 0.75rem; }
+.hero-label { font-size: 11px; letter-spacing: 0.1em; margin-bottom: 0.4rem; opacity: 0.6; }
+.hero-type { font-size: 28px; font-weight: 700; line-height: 1.25; margin-bottom: 0.25rem; }
+.hero-en { font-size: 12px; letter-spacing: 0.15em; opacity: 0.5; margin-bottom: 0.75rem; font-family: 'Nunito Sans', sans-serif; font-weight: 700; }
+.hero-tagline { font-size: 14px; font-weight: 500; opacity: 0.75; margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
+.hero-body { font-size: 14px; line-height: 1.9; opacity: 0.88; white-space: pre-line; }
+.hero-cta { margin-top: 1.25rem; font-size: 14px; font-weight: 700; }
+
+.section-head {
+  font-family: 'Nunito Sans', sans-serif; font-size: 11px; letter-spacing: 0.25em;
+  color: #0fb8a0; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px;
+}
+.section-head::after { content: ''; flex: 1; height: 1px; background: rgba(15,184,160,0.2); }
+
+.same-type-members {
+  display: flex; gap: 16px; overflow-x: auto;
+  padding-bottom: 4px; margin-bottom: 1.75rem; scrollbar-width: none;
+}
+.same-type-members::-webkit-scrollbar { display: none; }
+.stm-item { display: flex; flex-direction: column; align-items: center; gap: 7px; flex-shrink: 0; text-decoration: none; }
+.stm-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.85);
+  overflow: hidden; border: 2px solid rgba(255,255,255,0.12);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.stm-item:hover .stm-avatar { border-color: rgba(255,255,255,0.35); transform: translateY(-2px); }
+.stm-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.stm-avatar.c1 { background: linear-gradient(135deg, rgba(91,63,166,0.75), rgba(26,111,196,0.75)); }
+.stm-avatar.c2 { background: linear-gradient(135deg, rgba(15,184,160,0.6), rgba(26,111,196,0.65)); }
+.stm-avatar.c3 { background: linear-gradient(135deg, rgba(196,88,26,0.6), rgba(166,63,91,0.65)); }
+.stm-avatar.c4 { background: linear-gradient(135deg, rgba(63,140,26,0.6), rgba(15,184,160,0.55)); }
+.stm-avatar.c5 { background: linear-gradient(135deg, rgba(140,63,166,0.65), rgba(196,88,26,0.55)); }
+.stm-avatar.c6 { background: linear-gradient(135deg, rgba(26,111,196,0.65), rgba(63,26,166,0.65)); }
+.stm-avatar.c7 { background: linear-gradient(135deg, rgba(166,120,26,0.65), rgba(196,88,26,0.6)); }
+.stm-avatar.c8 { background: linear-gradient(135deg, rgba(166,26,100,0.6), rgba(91,26,166,0.65)); }
+.stm-name { font-size: 11px; color: rgba(255,255,255,0.65); text-align: center; max-width: 56px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.matches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.75rem; }
+.match { border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); padding: 14px; background: rgba(255,255,255,0.05); }
+.match-name { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+.match-why { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+.all-types-section { margin-bottom: 1.75rem; }
+.all-types-title { font-size: 11px; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 0.75rem; text-align: center; }
+.type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.type-chip {
+  border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 12px; display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.05); cursor: pointer; transition: border-color 0.15s;
+  width: 100%; text-align: left; font-family: 'Noto Sans JP', sans-serif;
+}
+.type-chip:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); }
+.type-chip.is-me { border-width: 2px; }
+.chip-emoji { font-size: 16px; flex-shrink: 0; }
+.chip-texts { flex: 1; }
+.chip-name { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.85); }
+.chip-you { font-size: 10px; margin-top: 1px; }
+.chip-arrow { font-size: 10px; color: rgba(255,255,255,0.3); flex-shrink: 0; transition: transform 0.2s; }
+.chip-arrow.open { transform: rotate(180deg); }
+.type-detail-panel { grid-column: 1 / -1; border-radius: 12px; padding: 1.5rem; animation: fadeUp 0.2s ease; }
+.detail-emoji { font-size: 28px; margin-bottom: 0.5rem; }
+.detail-type { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.detail-tagline { font-size: 12px; opacity: 0.65; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
+.detail-body { font-size: 13px; line-height: 1.85; opacity: 0.88; white-space: pre-line; margin-bottom: 0.75rem; }
+.detail-cta { font-size: 13px; font-weight: 700; }
+
+.common-note {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 1.25rem 1.5rem; font-size: 13px;
+  color: rgba(255,255,255,0.55); line-height: 1.8; margin-bottom: 1.75rem;
+}
+.divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.5rem 0; }
+.footer-note { font-size: 13px; color: rgba(255,255,255,0.35); text-align: center; line-height: 1.8; margin-bottom: 1.5rem; }
+.restart-btn {
+  display: block; width: 100%; padding: 12px;
+  border: 1px solid rgba(255,255,255,0.2); background: transparent;
+  color: rgba(255,255,255,0.5); border-radius: 8px; font-size: 14px;
+  font-family: 'Noto Sans JP', sans-serif; cursor: pointer; text-align: center; transition: background 0.15s;
+}
+.restart-btn:hover { background: rgba(255,255,255,0.06); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate { animation: fadeUp 0.5s ease; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="home.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-back" href="home.html">← ホームへ</a>
+</nav>
+
+<!-- INTRO -->
+<div class="wrap" id="screen-intro">
+  <div class="site-header">
+    <div class="site-logo">ENJIN 2026 · <span>TYPE</span></div>
+  </div>
+  <div class="intro animate">
+    <div class="intro-accent"></div>
+    <div class="intro-title">ENJINタイプ<span>診断</span></div>
+    <div class="intro-sub">6つの問いに答えると、ENJINでのあなたの役割タイプと、出会うべき仲間が見えてきます。</div>
+    <button class="start-btn" id="start-btn">診断をはじめる</button>
+  </div>
+
+  <div class="all-types-section">
+    <div class="all-types-title">8つのタイプ — タップして詳細を見る</div>
+    <div class="type-grid" id="intro-type-grid"></div>
+    <div id="intro-type-detail-area"></div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="wrap" id="screen-quiz" style="display:none">
+  <div class="site-header">
+    <div class="site-logo">ENJIN 2026 · <span>TYPE</span></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="q-num" id="q-num"></div>
+  <div class="q-text" id="q-text"></div>
+  <div class="options" id="options"></div>
+  <div class="nav-btns">
+    <button class="btn-back" id="btn-back">← 戻る</button>
+    <button class="btn-next" id="btn-next" disabled>次へ →</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="wrap" id="screen-result" style="display:none">
+  <div class="site-header">
+    <div class="site-logo">ENJIN 2026 · <span>TYPE</span></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+
+  <div class="hero animate" id="result-hero"></div>
+
+  <div id="same-type-section" style="display:none">
+    <div class="section-head">同じタイプの仲間</div>
+    <div class="same-type-members" id="same-type-members"></div>
+  </div>
+
+  <div class="section-head">出会うべき仲間タイプ</div>
+  <div class="matches" id="result-matches"></div>
+
+  <div class="all-types-section">
+    <div class="all-types-title">8つのタイプ — タップして詳細を見る</div>
+    <div class="type-grid" id="type-grid"></div>
+    <div id="type-detail-area"></div>
+  </div>
+
+  <div class="common-note">どのタイプにも優劣はなく、すべてが社会をより良くするために欠かせない役割です。</div>
+  <hr class="divider">
+  <div class="footer-note">合宿前に、話したい仲間を見つけよう。</div>
+  <button class="restart-btn" id="restart-btn">もう一度診断する</button>
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+requireAuth();
+
+var QUIZ_DATA = [
+  {
+    q: 'あなたが一番楽しいと感じる瞬間は？',
+    opts: [
+      { text: '誰も気づいていない問題を見つけたとき', type: 'igniter' },
+      { text: 'まだ見ぬ未来の可能性を思い描いているとき', type: 'visionary' },
+      { text: '新しいことに挑戦して、結果が出たとき', type: 'driver' },
+      { text: '人と人の間に、化学反応が起きたとき', type: 'connector' },
+    ]
+  },
+  {
+    q: 'アイデアが生まれるのは、どんなときが多い？',
+    opts: [
+      { text: 'ふと湧いた違和感から問いを立てたとき', type: 'igniter' },
+      { text: '誰かの話を聞いて、新しい組み合わせを思いついたとき', type: 'connector' },
+      { text: '静かに観察しながら、全体像が見えてきたとき', type: 'observer' },
+      { text: '余白のある時間の中で、じっくり考えているとき', type: 'seeker' },
+    ]
+  },
+  {
+    q: '「変化を起こす」とき、大事にしていることは？',
+    opts: [
+      { text: 'とにかく動いて、失敗しながら前に進めること', type: 'driver' },
+      { text: '人が自然に動き出すような言葉や構想を描くこと', type: 'visionary' },
+      { text: '急がず、深く考えて本質から変えていくこと', type: 'cultivator' },
+      { text: '関わる人が安心して力を発揮できる環境をつくること', type: 'supporter' },
+    ]
+  },
+  {
+    q: '自分でも気づいたら自然とやってしまうことは？',
+    opts: [
+      { text: '「本当にそれでいいの？」と問い直すこと', type: 'igniter' },
+      { text: '全体の構図を整理して、方向性を示すこと', type: 'observer' },
+      { text: '誰かが力を発揮できるよう、そっと支えること', type: 'supporter' },
+      { text: 'まだ決まっていない可能性を、大切に保ちながら考えること', type: 'seeker' },
+    ]
+  },
+  {
+    q: '新しいプロジェクトが始まるとき、まずしたいことは？',
+    opts: [
+      { text: '「なぜこれをするのか」を深掘りして理解すること', type: 'cultivator' },
+      { text: '「どんな未来を目指すのか」を言語化すること', type: 'visionary' },
+      { text: '「全体像と関係性」を把握して、道筋を描くこと', type: 'observer' },
+      { text: '「まず何から手をつけるか」を決めて動き出すこと', type: 'driver' },
+    ]
+  },
+  {
+    q: 'あなたが一番大切にしている価値観は？',
+    opts: [
+      { text: '本質を見つめ、根っこから変えていくこと', type: 'cultivator' },
+      { text: '誰かの可能性を引き出し、支えること', type: 'supporter' },
+      { text: '多様な可能性を閉じず、余白を守ること', type: 'seeker' },
+      { text: '人と人をつなぎ、新しいものを生み出すこと', type: 'connector' },
+    ]
+  },
+];
+
+var TYPES_DATA = {
+  igniter: {
+    name:'火を灯す人', en:'Igniter', emoji:'🔥',
+    color:'#D85A30', bg:'#FAECE7', text:'#4A1B0C',
+    tagline:'誰も見ていない可能性に、最初に気づく人',
+    body:'あなたは、多くの人が当たり前だと思っていることに、\n自然と問いを向ける人です。\n\n「本当にこれでいいのだろうか。」\n「もっと違うやり方があるのではないか。」\n\nそんな違和感は、単なる不満ではありません。\nそれは、新しい未来が生まれる前触れです。\n\n社会の変化は、いつだって誰かの小さな疑問から始まります。\n\n多くの人が見過ごしている課題や可能性に気づき、最初に声を上げる。\n\nその勇気が、新しい議論を生み、新しい挑戦を生み、\nやがて大きな変化へとつながっていきます。\n\nあなたは、人々の意識を揺さぶり、まだ見えていない未来への扉を開く存在です。\n\n一方で、誰よりも早く違和感に気づくからこそ、周囲との温度差や孤独を感じることもあるかもしれません。\nだからこそ、その問いに共鳴し、一緒に形にしてくれる仲間との出会いが大きな力になります。',
+    cta:'あなたは、「変化の起点」をつくる人です。',
+    matches:['visionary','driver'], matchReasons:['問いを未来の言葉に変えてくれる','その違和感を最初の一歩にしてくれる']
+  },
+  visionary: {
+    name:'未来を描く人', en:'Visionary', emoji:'🌏',
+    color:'#534AB7', bg:'#EEEDFE', text:'#26215C',
+    tagline:'人が向かいたくなる未来を示す人',
+    body:'あなたは、まだ誰も見たことのない可能性を思い描く人です。\n\n多くの人が今ある課題や制約を見ているとき、あなたはその先にある未来の景色を見ています。\n\n「こんな社会になったらいい。」\n「こんな世界はつくれないだろうか。」\n\nそんな想像力は、単なる空想ではありません。\n\nあなたが描く未来は、人の心の奥にある願いや希望を呼び覚まし、「その未来を一緒につくりたい」という共感を生み出します。\n\n新しい時代は、いつだって誰かのビジョンから始まります。\n\nまだ存在しない未来に言葉を与え、人々の挑戦や行動に方向を示す。\nそれがあなたの力です。\n\n一方で、理想が遠くに見えるほど、現実とのギャップに焦りやもどかしさを感じることもあります。\nだからこそ、その未来を形にする仲間と出会うことで、あなたのビジョンはより大きな力を持ちます。',
+    cta:'あなたは、「未来の可能性をひらく人」です。',
+    matches:['driver','supporter'], matchReasons:['あなたの構想を、現実の一歩に変えてくれる','ビジョンが続く土台を、静かに整えてくれる']
+  },
+  driver: {
+    name:'動かす人', en:'Driver', emoji:'🚀',
+    color:'#BA7517', bg:'#FAEEDA', text:'#412402',
+    tagline:'未来を、現実に変えていく人',
+    body:'あなたは、可能性を語るだけで終わらせない人です。\n\n「やったことがないから」\n「まだ準備が足りないから」\n「失敗するかもしれないから」\n\nそんな理由で立ち止まるのではなく、まず一歩を踏み出します。\n\nもちろん、最初から正解が見えているわけではありません。\n\nそれでも挑戦し、試し、学び、修正しながら前へ進んでいく。\n\nその行動が、アイデアを現実に変え、周囲の人たちの背中を押していきます。\n\n変化は、誰かが最初の一歩を踏み出した瞬間から始まります。\n\nあなたは、まだ存在しない未来を、自らの行動によって形にしていく人です。\n\n一方で、前へ進む力が強いからこそ、ときには立ち止まり、周囲の声や長期的な視点に耳を傾けることで、その挑戦はさらに大きな力になります。',
+    cta:'あなたは、「未来を現実に変えていく人」です。',
+    matches:['visionary','cultivator'], matchReasons:['向かうべき未来の絵を描いてくれる','動く前の土台を、深く耕してくれる']
+  },
+  cultivator: {
+    name:'耕す人', en:'Cultivator', emoji:'🌱',
+    color:'#3B6D11', bg:'#EAF3DE', text:'#173404',
+    tagline:'本質を見つめ、未来の土壌をつくる人',
+    body:'あなたは、目の前に起きている出来事だけでなく、その奥にある構造や前提に目を向ける人です。\n\n「なぜ、この問題は生まれているのだろう？」\n「本当に解決すべきことは何だろう？」\n\nそんな問いを掘り下げることで、多くの人が見過ごしてしまう本質を見つけ出します。\n\n多くの人が答えや解決策を探しているとき、あなたは物事の根っこにある原因や背景を見つめています。\n\n本質への理解がなければ、どんな挑戦も一時的なものになってしまうからです。\n\nあなたの問いは、議論に深みを与え、人々の視野を広げ、より根本的な変化への道筋をつくります。\n\nすぐに成果が見える役割ではないかもしれません。\nそれでも、未来に大きな実りをもたらすためには、まず豊かな土壌が必要です。\n\nそして、深く考えることに力を発揮するからこそ、動きながら学ぶ人や実践する人と組むことで、その洞察はさらに大きな力になります。',
+    cta:'あなたは、「未来を育てる土壌をつくる人」です。',
+    matches:['igniter','driver'], matchReasons:['新しい問いを持ち込んで、思考を揺さぶってくれる','深い洞察を、現実の行動に変えてくれる']
+  },
+  connector: {
+    name:'つなぐ人', en:'Connector', emoji:'🔗',
+    color:'#D4537E', bg:'#FBEAF0', text:'#4B1528',
+    tagline:'出会いから、新しい未来を生み出す人',
+    body:'あなたは、人と人のあいだに眠る可能性を見つける人です。\n\n異なる経験を持つ人。\n違う分野で挑戦している人。\n一見すると接点のない人たち。\n\nあなたはその中に、まだ誰も気づいていない共通点や可能性を見出します。\n\n「この人とあの人が出会ったら、何かが生まれるかもしれない。」\n\nそんな直感から生まれた一つの出会いが、新しい挑戦やプロジェクト、ときには人生そのものを動かすきっかけになることもあります。\n\n人と人をつなぐことは、単なる紹介ではありません。\n\nそれぞれが持つ想いや才能を結びつけ、一人では生み出せなかった未来を生み出すことです。\n\n一方で、周囲の可能性に目を向けるあまり、自分自身の挑戦を後回しにしてしまうこともあります。\nだからこそ、ときには自分自身の「やりたいこと」にも目を向けてみてください。',
+    cta:'あなたは、「出会いから新しい未来を生み出す人」です。',
+    matches:['igniter','observer'], matchReasons:['新しい問いと視点で、場をかき混ぜてくれる','全体を俯瞰して、最適なつながりを示してくれる']
+  },
+  supporter: {
+    name:'支える人', en:'Supporter', emoji:'🛠',
+    color:'#185FA5', bg:'#E6F1FB', text:'#042C53',
+    tagline:'人の力が発揮される土壌をつくる人',
+    body:'あなたは、人や場の変化に気づく力を持っています。\n\n誰かの不安や緊張、言葉にならない困りごとや違和感を察知し、自然と手を差し伸べることができます。\n\nあなたがいることで、\n人は安心して挑戦できる。\n組織は健やかに機能する。\nコミュニティは長く続いていく。\n\n目立つ役割ではないかもしれません。\nけれど、多くの挑戦や成果は、あなたがつくった安心と信頼の土台の上に成り立っています。\n\n人を支えることは、決して後ろに回ることではありません。\n誰かの可能性を引き出し、その力が発揮される環境をつくることです。\n\n一方で、人を優先するあまり、自分のことを後回しにしてしまうこともあります。\nだからこそ、ときには誰かに頼りながら、自分自身も大切にしてください。',
+    cta:'あなたは、「人と挑戦が育つ土壌をつくる人」です。',
+    matches:['visionary','connector'], matchReasons:['目指す先の言葉を与えて、力をチャージしてくれる','人と人をつなぎ、支えが広がる場をつくってくれる']
+  },
+  observer: {
+    name:'俯瞰する人', en:'Observer', emoji:'🧭',
+    color:'#5F5E5A', bg:'#F1EFE8', text:'#2C2C2A',
+    tagline:'複雑な世界に、道筋を見つける人',
+    body:'あなたは、目の前の出来事だけでなく、人・組織・社会全体のつながりを捉えることができる人です。\n\n多くの人が個別の課題に向き合っているとき、あなたはその背景にある構造や関係性を見ています。\n\n「本当の論点はどこだろう？」\n「何と何がつながっているのだろう？」\n\nそんな視点を持つことで、複雑に絡み合った問題の中から、進むべき方向や新たな可能性を見出していきます。\n\n変化の大きな時代ほど、全体像を描ける人の存在は欠かせません。\n\nあなたは人やアイデアをつなぎ、それぞれの力が発揮される道筋をつくることができます。\n\n一方で、全体が見えるからこそ、考えすぎて動き出しを遅らせてしまうこともあります。\nだからこそ、実践する人や火を灯す人と組むことで、その視点はさらに大きな力になります。',
+    cta:'あなたは、「複雑な世界に地図を描く人」です。',
+    matches:['igniter','driver'], matchReasons:['俯瞰した地図に、新しい問いを書き込んでくれる','描いた道筋を、実際に歩き始めてくれる']
+  },
+  seeker: {
+    name:'余白を生む人', en:'Space Maker', emoji:'🫧',
+    color:'#0F6E56', bg:'#E1F5EE', text:'#04342C',
+    tagline:'可能性を閉じず、未来を広げる人',
+    body:'あなたは、すぐに答えを出すよりも、まずは多様な可能性に目を向ける人です。\n\n誰かの意見に耳を傾け、まだ言葉になっていない想いや視点を受け止める。\n\n「本当にそれだけだろうか？」\n「他にも道があるかもしれない」\n\nそんな問いを持ち続けることで、周囲の人が新しい発想や選択肢にたどり着く余地を生み出しています。\n\n多くの人が結論や正解を求めるとき、あなたはあえて可能性を閉じません。\n\n異なる意見が共存できる場をつくり、まだ見ぬアイデアが芽吹くための空間を守っています。\n\n変化の大きな時代ほど、最初の正解に飛びつかず、可能性を開いておく存在は欠かせません。\n\nあなたが生み出す余白は、人の創造性を引き出し、思いもよらない未来への扉を開いていきます。\n\n可能性を広げることに力を発揮するからこそ、最後の決断や実行は、決める人や動かす人と組むことでさらに大きな力になります。',
+    cta:'あなたは、「まだ見ぬ未来の可能性を育てる人」です。',
+    matches:['driver','observer'], matchReasons:['余白から生まれたアイデアを、現実に動かしてくれる','広がりすぎた可能性を、地図として整理してくれる']
+  }
+};
+
+var answers = new Array(QUIZ_DATA.length).fill(null);
+var currentQ = 0;
+var openType = null;
+var COLORS = ['c1','c2','c3','c4','c5','c6','c7','c8'];
+
+function showScreen(name) {
+  ['intro','quiz','result'].forEach(function(s) {
+    document.getElementById('screen-' + s).style.display = s === name ? '' : 'none';
+  });
+  window.scrollTo(0, 0);
+}
+
+// --- Intro ---
+document.getElementById('start-btn').addEventListener('click', function() {
+  answers = new Array(QUIZ_DATA.length).fill(null);
+  currentQ = 0;
+  showQuiz(0);
+  showScreen('quiz');
+});
+
+// --- Quiz ---
+function showQuiz(n) {
+  var q = QUIZ_DATA[n];
+  var isLast = n === QUIZ_DATA.length - 1;
+  var pct = Math.round(((n + 1) / QUIZ_DATA.length) * 100);
+
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-num').textContent = 'Q ' + (n + 1) + ' / ' + QUIZ_DATA.length;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('btn-next').textContent = isLast ? '結果を見る →' : '次へ →';
+  document.getElementById('btn-next').disabled = answers[n] === null;
+
+  var opts = document.getElementById('options');
+  opts.innerHTML = q.opts.map(function(o) {
+    var sel = answers[n] === o.type;
+    return '<button class="opt' + (sel ? ' selected' : '') + '" data-type="' + o.type + '">' + o.text + '</button>';
+  }).join('');
+  opts.querySelectorAll('.opt').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      answers[n] = btn.dataset.type;
+      opts.querySelectorAll('.opt').forEach(function(b) { b.classList.toggle('selected', b === btn); });
+      document.getElementById('btn-next').disabled = false;
+    });
+  });
+}
+
+document.getElementById('btn-back').addEventListener('click', function() {
+  if (currentQ === 0) {
+    showScreen('intro');
+  } else {
+    currentQ--;
+    showQuiz(currentQ);
+  }
+});
+
+document.getElementById('btn-next').addEventListener('click', function() {
+  if (answers[currentQ] === null) return;
+  if (currentQ < QUIZ_DATA.length - 1) {
+    currentQ++;
+    showQuiz(currentQ);
+  } else {
+    var type = calcResult();
+    buildResult(type);
+    showScreen('result');
+    loadSameTypeMembers(type);
+  }
+});
+
+// --- Scoring ---
+function calcResult() {
+  var scores = {};
+  answers.forEach(function(t) { scores[t] = (scores[t] || 0) + 1; });
+  return Object.keys(scores).reduce(function(a, b) { return scores[a] >= scores[b] ? a : b; });
+}
+
+// --- Result ---
+function buildResult(typeKey) {
+  var t = TYPES_DATA[typeKey];
+  openType = null;
+
+  var hero = document.getElementById('result-hero');
+  hero.style.background = t.bg;
+  hero.innerHTML =
+    '<div class="hero-emoji">' + t.emoji + '</div>'
+    + '<div class="hero-label" style="color:' + t.text + ';">あなたのタイプ</div>'
+    + '<div class="hero-type" style="color:' + t.text + ';">' + t.name + '</div>'
+    + '<div class="hero-en" style="color:' + t.text + ';">' + t.en.toUpperCase() + '</div>'
+    + '<div class="hero-tagline" style="color:' + t.text + ';">' + t.tagline + '</div>'
+    + '<div class="hero-body" style="color:' + t.text + ';">' + t.body + '</div>'
+    + '<div class="hero-cta" style="color:' + t.color + ';">' + t.cta + '</div>';
+
+  document.getElementById('result-matches').innerHTML = t.matches.map(function(mk, i) {
+    var m = TYPES_DATA[mk];
+    return '<div class="match">'
+      + '<div class="match-name" style="color:' + m.color + ';">' + m.emoji + ' ' + m.name + '</div>'
+      + '<div class="match-why">' + t.matchReasons[i] + '</div>'
+      + '</div>';
+  }).join('');
+
+  var typeKeys = Object.keys(TYPES_DATA);
+  document.getElementById('type-grid').innerHTML = typeKeys.map(function(k) {
+    var m = TYPES_DATA[k];
+    var isMe = k === typeKey;
+    return '<button class="type-chip' + (isMe ? ' is-me' : '') + '"'
+      + (isMe ? ' style="border-color:' + m.color + ';background:' + m.bg + ';"' : '')
+      + ' onclick="toggleDetail(\'' + k + '\')">'
+      + '<span class="chip-emoji">' + m.emoji + '</span>'
+      + '<div class="chip-texts">'
+      + '<div class="chip-name"' + (isMe ? ' style="color:' + m.text + ';"' : '') + '>' + m.name + '</div>'
+      + (isMe ? '<div class="chip-you" style="color:' + m.color + ';">← あなた</div>' : '')
+      + '</div>'
+      + '<span class="chip-arrow" id="arr-' + k + '">▼</span>'
+      + '</button>';
+  }).join('');
+  document.getElementById('type-detail-area').innerHTML = '';
+  document.getElementById('same-type-section').style.display = 'none';
+}
+
+function toggleDetail(key) {
+  openType = (openType === key) ? null : key;
+  var area = document.getElementById('type-detail-area');
+  document.querySelectorAll('.chip-arrow').forEach(function(el) { el.classList.remove('open'); });
+  if (openType) {
+    var t = TYPES_DATA[openType];
+    document.getElementById('arr-' + openType).classList.add('open');
+    area.innerHTML = '<div class="type-detail-panel" style="background:' + t.bg + ';">'
+      + '<div class="detail-emoji">' + t.emoji + '</div>'
+      + '<div class="detail-type" style="color:' + t.text + ';">' + t.name + '</div>'
+      + '<div class="detail-tagline" style="color:' + t.text + ';">' + t.tagline + '</div>'
+      + '<div class="detail-body" style="color:' + t.text + ';">' + t.body + '</div>'
+      + '<div class="detail-cta" style="color:' + t.color + ';">' + t.cta + '</div>'
+      + '</div>';
+    area.querySelector('.type-detail-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    area.innerHTML = '';
+  }
+}
+
+// --- Same type members (live from GAS) ---
+async function loadSameTypeMembers(typeKey) {
+  try {
+    var res = await gasGet({ action: 'participants' });
+    if (!res.ok || !res.data) return;
+    var members = res.data
+      .filter(function(m) { return m.enjin_type === typeKey && (m.nickname || m.name); })
+      .map(function(m, i) {
+        return { nickname: m.nickname || m.name, edit_id: m.edit_id, photo_url: m.photo_url, color: COLORS[i % COLORS.length] };
+      });
+    if (members.length === 0) return;
+    var container = document.getElementById('same-type-members');
+    container.innerHTML = members.map(function(m) {
+      var initial = m.nickname.charAt(0);
+      var avatar = m.photo_url
+        ? '<img src="' + convertDriveUrl(m.photo_url) + '" alt="' + m.nickname + '">'
+        : initial;
+      return '<a class="stm-item" href="profile.html?id=' + m.edit_id + '">'
+        + '<div class="stm-avatar ' + m.color + '">' + avatar + '</div>'
+        + '<div class="stm-name">' + m.nickname + '</div>'
+        + '</a>';
+    }).join('');
+    document.getElementById('same-type-section').style.display = '';
+  } catch (e) {}
+}
+
+document.getElementById('restart-btn').addEventListener('click', function() {
+  showScreen('intro');
+});
+
+// --- Intro type grid ---
+var openIntroType = null;
+
+function buildIntroGrid() {
+  var grid = document.getElementById('intro-type-grid');
+  grid.innerHTML = Object.keys(TYPES_DATA).map(function(k) {
+    var t = TYPES_DATA[k];
+    return '<button class="type-chip" onclick="toggleIntroDetail(\'' + k + '\')">'
+      + '<span class="chip-emoji">' + t.emoji + '</span>'
+      + '<div class="chip-texts"><div class="chip-name">' + t.name + '</div></div>'
+      + '<span class="chip-arrow" id="intro-arr-' + k + '">▼</span>'
+      + '</button>';
+  }).join('');
+}
+
+function toggleIntroDetail(key) {
+  openIntroType = (openIntroType === key) ? null : key;
+  var area = document.getElementById('intro-type-detail-area');
+  Object.keys(TYPES_DATA).forEach(function(k) {
+    var el = document.getElementById('intro-arr-' + k);
+    if (el) el.classList.remove('open');
+  });
+  if (!openIntroType) { area.innerHTML = ''; return; }
+
+  var t = TYPES_DATA[openIntroType];
+  document.getElementById('intro-arr-' + openIntroType).classList.add('open');
+  area.innerHTML = '<div class="type-detail-panel" style="background:' + t.bg + ';">'
+    + '<div class="detail-emoji">' + t.emoji + '</div>'
+    + '<div class="detail-type" style="color:' + t.text + ';">' + t.name + '</div>'
+    + '<div class="detail-tagline" style="color:' + t.text + ';">' + t.tagline + '</div>'
+    + '<div class="detail-body" style="color:' + t.text + ';">' + t.body + '</div>'
+    + '<div class="detail-cta" style="color:' + t.color + ';">' + t.cta + '</div>'
+    + '<div id="intro-stm-section" style="display:none;margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.1);">'
+    + '<div style="font-family:\'Nunito Sans\',sans-serif;font-size:10px;letter-spacing:0.2em;color:' + t.color + ';margin-bottom:0.6rem;">このタイプの仲間</div>'
+    + '<div class="same-type-members" id="intro-stm-list"></div>'
+    + '</div>'
+    + '</div>';
+  area.querySelector('.type-detail-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  loadIntroTypeMembers(openIntroType, t.color);
+}
+
+async function loadIntroTypeMembers(typeKey, accentColor) {
+  try {
+    var res = await gasGet({ action: 'participants' });
+    if (!res.ok || !res.data) return;
+    var members = res.data
+      .filter(function(m) { return m.enjin_type === typeKey && (m.nickname || m.name); })
+      .map(function(m, i) {
+        return { nickname: m.nickname || m.name, edit_id: m.edit_id, photo_url: m.photo_url, color: COLORS[i % COLORS.length] };
+      });
+    if (members.length === 0) return;
+    var list = document.getElementById('intro-stm-list');
+    if (!list) return;
+    list.innerHTML = members.map(function(m) {
+      var initial = m.nickname.charAt(0);
+      var avatar = m.photo_url
+        ? '<img src="' + convertDriveUrl(m.photo_url) + '" alt="' + m.nickname + '">'
+        : initial;
+      return '<a class="stm-item" href="profile.html?id=' + m.edit_id + '">'
+        + '<div class="stm-avatar ' + m.color + '">' + avatar + '</div>'
+        + '<div class="stm-name">' + m.nickname + '</div>'
+        + '</a>';
+    }).join('');
+    document.getElementById('intro-stm-section').style.display = '';
+  } catch (e) {}
+}
+
+buildIntroGrid();
+</script>
+</body>
+</html>
