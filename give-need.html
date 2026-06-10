@@ -132,7 +132,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
     document.getElementById('panel-need').className = 'tab-panel' + (type === 'need' ? ' active' : '');
   }
 
-  function renderCard(p, idx, type) {
+  function renderCard(p, type) {
     const text = type === 'give' ? p.can_give : p.need_help;
     const labelClass = type === 'give' ? 'give' : 'need';
     const cardClass  = type === 'give' ? 'give-card' : 'need-card';
@@ -145,7 +145,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
     return `
       <div class="gn-card ${cardClass}">
         <div class="card-text">${escHtml(text)}</div>
-        <a class="card-person" href="profile.html?idx=${idx}">
+        <a class="card-person" href="profile.html?id=${p.edit_id}">
           <div class="person-avatar">${avatarEl}</div>
           <div class="person-name">${escHtml(p.nickname || p.name || '—')}</div>
           <div class="person-arrow">→</div>
@@ -168,15 +168,13 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
     const members = res.data.slice().sort(() => Math.random() - 0.5);
 
     const giveCards = members
-      .map((p, i) => ({ p, i }))
-      .filter(({ p }) => p.can_give && p.can_give.trim())
-      .map(({ p, i }) => renderCard(p, i, 'give'))
+      .filter(p => p.can_give && p.can_give.trim())
+      .map(p => renderCard(p, 'give'))
       .join('');
 
     const needCards = members
-      .map((p, i) => ({ p, i }))
-      .filter(({ p }) => p.need_help && p.need_help.trim())
-      .map(({ p, i }) => renderCard(p, i, 'need'))
+      .filter(p => p.need_help && p.need_help.trim())
+      .map(p => renderCard(p, 'need'))
       .join('');
 
     document.getElementById('grid-give').innerHTML = giveCards || '<div class="no-result">まだGIVEが登録されていません</div>';

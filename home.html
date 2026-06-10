@@ -76,16 +76,35 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 
 .partners-section { margin-top: 48px; padding-bottom: 80px; text-align: center; }
 .section-label { font-family: 'Nunito Sans', sans-serif; font-size: 18px; font-weight: 900; letter-spacing: 0.2em; color: rgba(255,255,255,0.55); margin-bottom: 28px; }
-.partner-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.partner-block { margin-top: 48px; }
+.partner-grid { display: grid; gap: 16px; }
 .partner-card {
   background: #fff; border-radius: 16px;
-  padding: 24px 20px; display: flex; align-items: center; justify-content: center; min-height: 110px;
+  padding: 24px 20px; display: flex; align-items: center; justify-content: center;
+  height: 110px; text-decoration: none;
+  transition: opacity 0.15s;
 }
-.partner-card img { max-width: 100%; max-height: 70px; object-fit: contain; }
+a.partner-card:hover { opacity: 0.8; }
+.partner-card img { max-width: 100%; max-height: 64px; object-fit: contain; }
+.partner-card.collab img { max-height: 72px; max-width: 85%; }
+.grid-2x2 { grid-template-columns: repeat(2, 1fr); }
+.grid-2x2 .honda-card { grid-column: 1 / -1; max-width: 50%; margin: 0 auto; width: 100%; }
+.honda-full { font-size: 15px; font-weight: 700; color: #222; letter-spacing: 0.04em; text-align: center; }
+.grid-1col-center { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+.grid-2col { grid-template-columns: repeat(2, 1fr); }
+.collab-text-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 12px; }
+.collab-text-item {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; padding: 14px 28px;
+  font-size: 12px; color: rgba(255,255,255,0.65); letter-spacing: 0.04em; white-space: nowrap;
+}
+.main-organizer { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.05em; }
 
 @media (max-width: 560px) {
   .cards-grid { grid-template-columns: 1fr; }
-  .partner-grid { grid-template-columns: 1fr; }
+  .grid-2x2, .grid-2col { grid-template-columns: 1fr; }
+  .grid-2x2 .honda-card { max-width: 100%; }
+  .grid-1col-center { max-width: 100%; }
   .notice { flex-direction: column; align-items: flex-start; gap: 10px; }
   .hero-title { font-size: 26px; }
 }
@@ -164,15 +183,69 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   </div>
 
   <div class="partners-section">
-    <div class="section-label">ENJIN PARTNER</div>
-    <div class="partner-grid">
-      <div class="partner-card">
-        <img src="images/deloitte.png" alt="Deloitte トーマツ">
-      </div>
-      <div class="partner-card">
-        <img src="images/jisedai.jpeg" alt="一般社団法人 次世代教育ネットワーキング機構">
+
+    <!-- ENJIN PARTNER -->
+    <div class="partner-block">
+      <div class="section-label">ENJIN PARTNER</div>
+      <div class="partner-grid grid-2x2">
+        <a class="partner-card" href="https://www.deloitte.com/jp/ja.html" target="_blank" rel="noopener">
+          <img src="images/deloitte.png" alt="Deloitte トーマツ">
+        </a>
+        <a class="partner-card" href="https://www.edunet.or.jp/" target="_blank" rel="noopener">
+          <img src="images/jisedai.jpeg" alt="一般社団法人 次世代教育ネットワーキング機構">
+        </a>
+        <a class="partner-card" href="https://global.honda/jp/" target="_blank" rel="noopener">
+          <div class="honda-full">本田技研工業株式会社</div>
+        </a>
+        <a class="partner-card" href="https://www.nskre.co.jp/" target="_blank" rel="noopener">
+          <div class="honda-full">日鉄興和不動産株式会社</div>
+        </a>
       </div>
     </div>
+
+    <!-- MEDIA PARTNER -->
+    <div class="partner-block">
+      <div class="section-label">MEDIA PARTNER</div>
+      <div class="partner-grid grid-1col-center">
+        <a class="partner-card" href="https://greenz.jp/" target="_blank" rel="noopener">
+          <img src="images/greenz.png" alt="greenz.jp">
+        </a>
+      </div>
+    </div>
+
+    <!-- 協力 -->
+    <div class="partner-block">
+      <div class="section-label">協力</div>
+      <div class="partner-grid grid-2col">
+        <a class="partner-card collab" href="https://coten.co.jp/" target="_blank" rel="noopener">
+          <img src="images/coten.png" alt="COTEN" style="max-height:56px;max-width:75%;">
+        </a>
+        <a class="partner-card collab" href="https://crossfields.jp/" target="_blank" rel="noopener">
+          <img src="images/crossfields.png" alt="CrossFields">
+        </a>
+      </div>
+      <div class="collab-text-grid">
+        <div class="collab-text-item">PEACE ENJIN TEAM</div>
+        <div class="collab-text-item">一般社団法人東の食の会</div>
+        <div class="collab-text-item">O ltd. | 合同会社O</div>
+        <div class="collab-text-item">株式会社オリィ研究所</div>
+        <div class="collab-text-item">株式会社CLACK</div>
+        <div class="collab-text-item">合同会社かけるアート</div>
+        <div class="collab-text-item">株式会社すみなす</div>
+        <div class="collab-text-item">株式会社ナラティブ</div>
+        <div class="collab-text-item">国境なき医師団</div>
+        <div class="collab-text-item">株式会社 Wildlife Ventures</div>
+        <div class="collab-text-item">ベータ・ベンチャーキャピタル株式会社</div>
+        <div class="collab-text-item">一般社団法人シェアリングエコノミー協会</div>
+      </div>
+    </div>
+
+    <!-- 主催 -->
+    <div class="partner-block">
+      <div class="section-label">主催</div>
+      <div class="main-organizer">株式会社ボーダレス・ジャパン</div>
+    </div>
+
   </div>
 
 </div>
