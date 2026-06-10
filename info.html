@@ -69,6 +69,19 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 .parking-text { font-size: 13px; line-height: 2.1; color: rgba(255,255,255,0.65); margin-bottom: 20px; }
 .parking-text .caution { color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 6px; display: block; }
 
+/* 注意事項 */
+.notice-item { margin-bottom: 28px; }
+.notice-item-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.notice-item-body { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.7); }
+.bus-route { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.bus-route-item {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 12px; line-height: 1.9; color: rgba(255,255,255,0.7);
+}
+.bus-route-item b { color: #fff; }
+
 /* 持ち物 */
 .check-item {
   display: flex; align-items: flex-start; gap: 14px;
@@ -182,6 +195,50 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
     <div class="check-item">
       <div class="check-box"></div>
       <div class="check-text">常備薬など</div>
+    </div>
+  </div>
+
+  <!-- 注意事項 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">⚠️</span>
+      <span class="section-title">注意事項</span>
+    </div>
+
+    <div class="notice-item">
+      <div class="notice-item-title">🍱 飲食物の持ち込みについて</div>
+      <div class="notice-item-body">
+        会場規定により、お弁当などの食事類の持ち込みはご遠慮いただいております。<br>
+        個包装のお菓子やカロリーメイトなどの栄養補助食品、飲料についてはお持ち込みいただけます。<br>
+        皆さまのご理解とご協力をお願いいたします。
+      </div>
+    </div>
+
+    <div class="notice-item">
+      <div class="notice-item-title">🚌 26日 AM11:00 のバスに乗り遅れた場合・遅れて参加される場合</div>
+      <div class="notice-item-body">ご自身でバスまたはタクシーをご利用ください。</div>
+      <ul class="bus-route">
+        <li class="bus-route-item">
+          <b>JR逗子駅前</b>より「湘南国際村センター（葉山大道経由）（逗16）」<br>
+          【湘南国際村センター前】まで約20分<br>
+          <a class="link-btn" href="https://www.navitime.co.jp/bus/diagram/timelist?departure=00113875&arrival=00113963&line=00027482" target="_blank" rel="noopener">→ 時刻表</a>
+        </li>
+        <li class="bus-route-item">
+          <b>JR逗子駅前</b>より「湘南国際村センター（三浦半島中央道路経由）（逗26）」<br>
+          【湘南国際村センター前】まで約13分<br>
+          <a class="link-btn" href="https://www.navitime.co.jp/diagram/bus/00113875/00027493/1/" target="_blank" rel="noopener">→ 時刻表</a>
+        </li>
+        <li class="bus-route-item">
+          <b>京急汐入駅前、2番乗り場</b>より「湘南国際村（汐16）」ゆき利用<br>
+          【湘南国際村センター前】まで約24分<br>
+          <a class="link-btn" href="https://www.navitime.co.jp/bus/diagram/timelist?departure=00114009&arrival=00113963&line=00027538" target="_blank" rel="noopener">→ 時刻表</a>
+        </li>
+        <li class="bus-route-item">
+          <b>横浜駅、YCAT（横浜シティエアターミナル）6番乗り場</b>より「電力中央研究所」「佐島マリーナ入口」ゆき利用<br>
+          【湘南国際村センター前】まで約42分<br>
+          <a class="link-btn" href="https://www.ycat.co.jp/route/yokosuka/ycat2yokosuka/" target="_blank" rel="noopener">→ 時刻表</a>
+        </li>
+      </ul>
     </div>
   </div>
 
