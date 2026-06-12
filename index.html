@@ -31,7 +31,7 @@ button:disabled{opacity:0.5;cursor:default;}
 </div>
 <script src="guidebook.js"></script>
 <script>
-  const nextPage = new URLSearchParams(location.search).get('next') || 'members.html';
+  const nextPage = new URLSearchParams(location.search).get('next') || 'home.html';
   if (isAuthed()) location.href = nextPage;
 
   async function tryLogin() {

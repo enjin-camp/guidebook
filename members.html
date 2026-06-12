@@ -100,7 +100,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 <body>
 
 <nav class="nav">
-  <a class="nav-logo" href="index.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-logo" href="home.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
   <a class="nav-edit" href="edit.html">プロフィールを編集</a>
 </nav>
 
@@ -217,7 +217,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
       grid.innerHTML = '<div class="loading">読み込みに失敗しました</div>';
       return;
     }
-    allMembers = res.data;
+    allMembers = res.data.slice().sort(() => Math.random() - 0.5);
     populateSelect('filter-hometown',   allMembers.map(p => p.hometown),
       (a, b) => hometownSortKey(a) - hometownSortKey(b) || a.localeCompare(b, 'ja'));
     populateSelect('filter-initiative', allMembers.map(p => p.initiative));
