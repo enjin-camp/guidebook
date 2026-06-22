@@ -173,6 +173,34 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #eef1f8; min-height:
   padding: 9px 14px; font-size: 13px; color: #888; cursor: pointer;
   font-family: 'Noto Sans JP', sans-serif;
 }
+
+/* COMMENTS */
+.comment-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.comment-item { background: #f5f7fc; border-radius: 8px; padding: 10px 12px; border: 1px solid rgba(13,26,107,0.07); }
+.comment-meta { font-size: 10px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+.comment-name { font-weight: 700; color: #0d1a6b; }
+.comment-date { color: #bbb; }
+.comment-text { font-size: 13px; color: #1a2a6b; line-height: 1.7; white-space: pre-wrap; }
+.comment-form { padding-top: 14px; border-top: 1px solid rgba(13,26,107,0.07); }
+.comment-input {
+  width: 100%; border: 1px solid rgba(13,26,107,0.15); border-radius: 6px;
+  padding: 8px 10px; font-size: 13px; color: #1a2a6b;
+  font-family: 'Noto Sans JP', sans-serif; background: #fff; margin-bottom: 8px;
+}
+.comment-input:focus, .comment-textarea:focus { outline: none; border-color: #0fb8a0; }
+.comment-textarea {
+  width: 100%; min-height: 70px;
+  background: #fff; border: 1px solid rgba(13,26,107,0.15); border-radius: 8px;
+  padding: 10px 12px; font-size: 13px; color: #1a2a6b;
+  font-family: 'Noto Sans JP', sans-serif; resize: vertical; line-height: 1.7;
+}
+.comment-submit-btn {
+  background: #0d1a6b; color: #fff; border: none; border-radius: 8px;
+  padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; margin-top: 8px;
+}
+.comment-submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+.comment-empty { font-size: 13px; color: #bbb; margin-bottom: 14px; }
 </style>
 </head>
 <body>
@@ -255,6 +283,14 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #eef1f8; min-height:
       <div class="pb-section">
         <div class="pb-section-title">GIVE & NEED</div>
         <div id="give-area"></div>
+      </div>
+
+      <!-- COMMENTS -->
+      <div class="pb-section">
+        <div class="pb-section-title">COMMENTS</div>
+        <div id="comments-area">
+          <div class="comment-empty">読み込み中...</div>
+        </div>
       </div>
 
     </div>
@@ -466,6 +502,98 @@ function openGiveEdit(field) {
   item.querySelector('.give-textarea').focus();
 }
 
+// ---- COMMENTS ----
+
+let commentsTargetId = null;
+let commentsTargetName = '';
+let commentsCanPost = false;
+
+async function loadComments(targetId, targetName, canPost) {
+  commentsTargetId = targetId;
+  commentsTargetName = targetName || '';
+  commentsCanPost = canPost;
+  const area = document.getElementById('comments-area');
+  try {
+    const res = await gasGet({ action: 'get_comments', target_id: targetId });
+    renderComments(res.ok ? (res.data || []) : []);
+  } catch (_) {
+    area.innerHTML = '<div class="comment-empty">コメントを読み込めませんでした。</div>';
+  }
+}
+
+function renderComments(comments) {
+  const area = document.getElementById('comments-area');
+
+  const listHtml = comments.length
+    ? `<div class="comment-list">${comments.map(c => {
+        const d = c.created_at ? new Date(c.created_at) : null;
+        const dateStr = d && !isNaN(d)
+          ? `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`
+          : '';
+        return `<div class="comment-item">
+          <div class="comment-meta">
+            <span class="comment-name">${escapeHtml(c.commenter_name || '匿名')}</span>
+            ${dateStr ? `<span class="comment-date">${dateStr}</span>` : ''}
+          </div>
+          <div class="comment-text">${escapeHtml(c.message || '')}</div>
+        </div>`;
+      }).join('')}</div>`
+    : `<div class="comment-empty">${commentsCanPost ? 'まだコメントはありません。最初のメッセージを送りましょう！' : 'まだコメントはありません。'}</div>`;
+
+  const formHtml = commentsCanPost ? `
+    <div class="comment-form">
+      <input class="comment-input" id="comment-name" type="text" placeholder="名前（任意）" maxlength="50">
+      <textarea class="comment-textarea" id="comment-text" placeholder="${commentsTargetName}さんへのメッセージを書いてね" maxlength="500"></textarea>
+      <button class="comment-submit-btn" id="comment-submit">送る</button>
+    </div>` : '';
+
+  area.innerHTML = listHtml + formHtml;
+
+  if (commentsCanPost) {
+    document.getElementById('comment-submit').addEventListener('click', submitComment);
+  }
+}
+
+async function submitComment() {
+  const nameEl = document.getElementById('comment-name');
+  const textEl = document.getElementById('comment-text');
+  const btn = document.getElementById('comment-submit');
+  const text = textEl.value.trim();
+  if (!text) { textEl.focus(); return; }
+
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+
+  try {
+    const res = await gasPost({
+      action: 'post_comment',
+      target_edit_id: commentsTargetId,
+      commenter_name: nameEl.value.trim(),
+      message: text,
+    });
+    if (res.ok) {
+      showToast('コメントを送りました！');
+      await loadComments(commentsTargetId, commentsTargetName, commentsCanPost);
+    } else {
+      showToast('送信に失敗しました。再度お試しください。');
+      btn.disabled = false;
+      btn.textContent = '送る';
+    }
+  } catch (_) {
+    showToast('通信エラーが発生しました。');
+    btn.disabled = false;
+    btn.textContent = '送る';
+  }
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 // ---- GAS保存 ----
 
 async function saveProfile(fields) {
@@ -524,8 +652,9 @@ async function load() {
 
   // Facebook アイコン
   const fbIcon = document.getElementById('fb-icon');
-  if (p.facebook_url) {
-    fbIcon.href = p.facebook_url;
+  const fbUrl = (p.facebook_url || '').trim();
+  if (fbUrl) {
+    fbIcon.href = fbUrl;
     fbIcon.style.display = 'block';
   }
 
@@ -549,6 +678,7 @@ async function load() {
   renderMessage(isOwn);
   renderType(isOwn, !!p.enjin_type);
   renderGive(isOwn);
+  loadComments(profileId, p.nickname || p.name, !isOwn);
 
   // 自分の編集URLではないアクセスのみ計測（fire-and-forget）
   if (!isOwn) {
