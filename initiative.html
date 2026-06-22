@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>INITIATIVE — ENJIN 2026 GUIDE BOOK</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height: 100vh; color: #fff; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,26,107,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo { font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.15em; color: #fff; text-decoration: none; }
+.nav-logo span { color: #0fb8a0; }
+.nav-back { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.nav-back:hover { color: #fff; }
+
+.hero { padding: 44px 24px 28px; text-align: center; }
+.hero-eyebrow { font-family: 'Nunito Sans', sans-serif; font-size: 11px; letter-spacing: 0.3em; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.hero-title { font-family: 'Nunito Sans', sans-serif; font-size: 30px; font-weight: 900; letter-spacing: 0.15em; color: #0fb8a0; }
+.hero-accent { width: 36px; height: 3px; background: #0fb8a0; border-radius: 2px; margin: 12px auto 0; }
+.hero-sub { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.05em; margin-top: 12px; }
+
+.page-wrap { max-width: 720px; margin: 0 auto; padding: 24px 24px 80px; }
+
+.loading { text-align: center; padding: 80px 24px; color: rgba(255,255,255,0.4); font-size: 13px; letter-spacing: 0.1em; }
+
+/* イニシアチブカード */
+.initiative-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+
+.initiative-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; overflow: hidden;
+}
+.initiative-card.is-open { border-color: rgba(15,184,160,0.4); }
+
+.initiative-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 20px 22px; cursor: pointer;
+  transition: background 0.15s;
+}
+.initiative-header:hover { background: rgba(255,255,255,0.04); }
+
+.initiative-axis {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+}
+.axis-target { background: rgba(15,184,160,0.15); border: 1px solid rgba(15,184,160,0.35); color: #0fb8a0; }
+.axis-structure { background: rgba(91,63,166,0.2); border: 1px solid rgba(91,63,166,0.4); color: #b39ddb; }
+
+.initiative-name { font-size: 15px; font-weight: 700; color: #fff; flex: 1; line-height: 1.4; }
+
+.initiative-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.initiative-count {
+  font-family: 'Nunito Sans', sans-serif; font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,0.5); white-space: nowrap;
+}
+.initiative-chevron {
+  font-size: 12px; color: rgba(255,255,255,0.4);
+  transition: transform 0.25s ease; display: inline-block;
+}
+.initiative-chevron.rotated { transform: rotate(180deg); }
+
+/* Notionボタン */
+.notion-btn-wrap { padding: 0 22px 18px; }
+.notion-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 20px;
+  padding: 6px 16px; text-decoration: none;
+  transition: color 0.15s, border-color 0.15s;
+}
+.notion-btn:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+/* アコーディオン本体 */
+.initiative-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease;
+  border-top: 0px solid rgba(255,255,255,0.08);
+}
+.initiative-body.open {
+  max-height: 3000px;
+  border-top-width: 1px;
+}
+
+.members-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  padding: 20px 20px 24px;
+}
+
+/* 参加者カード（members.html と同一デザイン） */
+.member-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; overflow: hidden; cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s, background 0.15s;
+  text-decoration: none; display: block;
+}
+.member-card:hover { transform: translateY(-4px); border-color: rgba(15,184,160,0.45); background: rgba(255,255,255,0.1); }
+.card-photo {
+  width: 100%; aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.card-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.card-photo-initial { font-size: 32px; font-weight: 700; color: rgba(255,255,255,0.5); }
+.card-body { padding: 12px 12px 14px; }
+.card-accent { width: 24px; height: 2px; background: #0fb8a0; border-radius: 2px; margin-bottom: 8px; }
+.card-nickname { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.card-org { font-size: 10px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.card-photo.c1 { background: linear-gradient(135deg, rgba(91,63,166,0.65), rgba(26,111,196,0.65)); }
+.card-photo.c2 { background: linear-gradient(135deg, rgba(15,184,160,0.5), rgba(26,111,196,0.55)); }
+.card-photo.c3 { background: linear-gradient(135deg, rgba(196,88,26,0.5), rgba(166,63,91,0.55)); }
+.card-photo.c4 { background: linear-gradient(135deg, rgba(63,140,26,0.5), rgba(15,184,160,0.45)); }
+.card-photo.c5 { background: linear-gradient(135deg, rgba(140,63,166,0.55), rgba(196,88,26,0.45)); }
+.card-photo.c6 { background: linear-gradient(135deg, rgba(26,111,196,0.55), rgba(63,26,166,0.55)); }
+.card-photo.c7 { background: linear-gradient(135deg, rgba(166,120,26,0.55), rgba(196,88,26,0.5)); }
+.card-photo.c8 { background: linear-gradient(135deg, rgba(166,26,100,0.5), rgba(91,26,166,0.55)); }
+
+.no-members { padding: 20px; text-align: center; font-size: 13px; color: rgba(255,255,255,0.35); }
+
+@media (max-width: 560px) {
+  .members-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 16px 16px 20px; }
+  .initiative-header { padding: 16px 18px; gap: 10px; }
+  .initiative-name { font-size: 14px; }
+  .notion-btn-wrap { padding: 0 18px 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="home.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-back" href="home.html">← ホームへ</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">ENJIN CAMP 2026</div>
+  <div class="hero-title">INITIATIVE</div>
+  <div class="hero-accent"></div>
+  <div class="hero-sub">8つのイニシアチブ — 参加者一覧</div>
+</div>
+
+<div class="page-wrap">
+  <div class="initiative-list" id="initiative-list">
+    <div class="loading">読み込み中...</div>
+  </div>
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+requireAuth();
+
+const INITIATIVES = [
+  { name: '貧困家庭の子ども・ひとり親',           axis: '対象軸', notion: 'https://www.notion.so/borderless-projectx/37a72a033526805b812ae5f53007a66b' },
+  { name: '就労困難な社会的弱者',                 axis: '対象軸', notion: 'https://www.notion.so/borderless-projectx/37c72a0335268095af4cf91b18ae75e7' },
+  { name: '介護未満の高齢者',                     axis: '対象軸', notion: 'https://www.notion.so/borderless-projectx/38072a03352680ed9a4df4043cb249a6' },
+  { name: '不登校の子ども',                       axis: '対象軸', notion: 'https://www.notion.so/borderless-projectx/38372a0335268097a20cf7bd053d574d' },
+  { name: '日本に暮らす外国人労働者・移民',       axis: '対象軸', notion: 'https://www.notion.so/borderless-projectx/38072a03352680e39874df339c36cc38' },
+  { name: '生物多様性が崩れた森・流域の再設計',   axis: '構造軸', sheetName: '森・流域の再設計',   notion: 'https://www.notion.so/borderless-projectx/37c72a033526807bb622f4e8e1ff2629' },
+  { name: 'サーキュラーな街づくり',               axis: '構造軸', notion: 'https://www.notion.so/borderless-projectx/38172a033526807f8b53d8e589e13cc5' },
+  { name: '持続可能な地域自治の再設計',           axis: '構造軸', sheetName: '地域自治の再設計',   notion: 'https://www.notion.so/borderless-projectx/38372a03352680a8ac8afb95c624c0ad' },
+];
+
+const COLORS = ['c1','c2','c3','c4','c5','c6','c7','c8'];
+
+function renderMemberCard(p, index) {
+  const colorClass = COLORS[index % COLORS.length];
+  const photoEl = p.photo_url
+    ? `<img src="${convertDriveUrl(p.photo_url)}" alt="${p.nickname || p.name}">`
+    : `<div class="card-photo-initial">${initials(p.nickname || p.name)}</div>`;
+  return `
+    <a class="member-card" href="profile.html?id=${p.edit_id}">
+      <div class="card-photo ${colorClass}">${photoEl}</div>
+      <div class="card-body">
+        <div class="card-accent"></div>
+        <div class="card-nickname">${p.nickname || p.name || '—'}</div>
+        <div class="card-org">${[p.organization, p.title].filter(Boolean).join('<br>')}</div>
+      </div>
+    </a>`;
+}
+
+function renderInitiativeCard(initiative, members) {
+  const axisClass = initiative.axis === '対象軸' ? 'axis-target' : 'axis-structure';
+  const count = members.length;
+  const membersHtml = count > 0
+    ? members.map((p, i) => renderMemberCard(p, i)).join('')
+    : '<div class="no-members">参加者情報はまだ登録されていません</div>';
+
+  return `
+    <div class="initiative-card">
+      <div class="initiative-header">
+        <span class="initiative-axis ${axisClass}">${initiative.axis}</span>
+        <span class="initiative-name">${initiative.name}</span>
+        <div class="initiative-meta">
+          <span class="initiative-count">${count}人</span>
+          <span class="initiative-chevron">▼</span>
+        </div>
+      </div>
+      <div class="notion-btn-wrap">
+        <a class="notion-btn" href="${initiative.notion}" target="_blank" rel="noopener">
+          イニシアチブの詳細はこちら →
+        </a>
+      </div>
+      <div class="initiative-body">
+        <div class="members-grid">${membersHtml}</div>
+      </div>
+    </div>`;
+}
+
+async function load() {
+  const list = document.getElementById('initiative-list');
+  const res = await gasGet({ action: 'participants' });
+  if (!res.ok || !res.data) {
+    list.innerHTML = '<div class="loading">読み込みに失敗しました</div>';
+    return;
+  }
+
+  const byInitiative = {};
+  res.data.forEach(p => {
+    const key = (p.initiative || '').trim();
+    if (!byInitiative[key]) byInitiative[key] = [];
+    byInitiative[key].push(p);
+  });
+
+  list.innerHTML = INITIATIVES.map(init =>
+    renderInitiativeCard(init, byInitiative[init.sheetName || init.name] || [])
+  ).join('');
+
+  list.addEventListener('click', e => {
+    const header = e.target.closest('.initiative-header');
+    if (!header) return;
+    const card = header.closest('.initiative-card');
+    const body = card.querySelector('.initiative-body');
+    const chevron = header.querySelector('.initiative-chevron');
+    const isOpen = body.classList.contains('open');
+
+    document.querySelectorAll('.initiative-body.open').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.initiative-chevron.rotated').forEach(c => c.classList.remove('rotated'));
+    document.querySelectorAll('.initiative-card.is-open').forEach(c => c.classList.remove('is-open'));
+
+    if (!isOpen) {
+      body.classList.add('open');
+      chevron.classList.add('rotated');
+      card.classList.add('is-open');
+    }
+  });
+}
+
+load();
+</script>
+</body>
+</html>
