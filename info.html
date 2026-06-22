@@ -82,6 +82,35 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 }
 .bus-route-item b { color: #fff; }
 
+/* アメニティ・設備 補足ボックス */
+.amenity-box {
+  margin-top: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 18px 18px 14px;
+  background: rgba(255,255,255,0.03);
+}
+.amenity-box-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.65); margin-bottom: 16px;
+}
+.amenity-group { margin-bottom: 16px; }
+.amenity-group:last-child { margin-bottom: 0; }
+.amenity-group-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35); margin-bottom: 8px;
+}
+.amenity-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.amenity-tag {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 4px 11px;
+  font-size: 11px; color: rgba(255,255,255,0.55); white-space: nowrap;
+}
+.amenity-note {
+  font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.7;
+  margin-top: 10px;
+}
+
 /* 持ち物 */
 .check-item {
   display: flex; align-items: flex-start; gap: 14px;
@@ -196,6 +225,58 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
       <div class="check-box"></div>
       <div class="check-text">常備薬など</div>
     </div>
+
+    <div class="amenity-box">
+      <div class="amenity-box-title">🏨 ホテルに備わっているもの</div>
+
+      <div class="amenity-group">
+      <div class="amenity-group-label">客室内設置</div>
+      <div class="amenity-tags">
+        <span class="amenity-tag">シャンプー</span>
+        <span class="amenity-tag">リンス</span>
+        <span class="amenity-tag">ボディソープ</span>
+        <span class="amenity-tag">ハンドソープ</span>
+        <span class="amenity-tag">バスタオル</span>
+        <span class="amenity-tag">フェイスタオル</span>
+        <span class="amenity-tag">ナイトウェア（シャツタイプ）</span>
+        <span class="amenity-tag">使い捨てスリッパ</span>
+        <span class="amenity-tag">マグカップ</span>
+        <span class="amenity-tag">消臭・除菌スプレー</span>
+      </div>
+    </div>
+
+    <div class="amenity-group">
+      <div class="amenity-group-label">アメニティバー</div>
+      <div class="amenity-tags">
+        <span class="amenity-tag">お茶</span>
+        <span class="amenity-tag">歯ブラシ</span>
+        <span class="amenity-tag">カミソリ</span>
+        <span class="amenity-tag">コットン</span>
+        <span class="amenity-tag">綿棒</span>
+        <span class="amenity-tag">ヘアブラシ</span>
+        <span class="amenity-tag">入浴剤</span>
+        <span class="amenity-tag">シャワーキャップ</span>
+        <span class="amenity-tag">化粧水ほか</span>
+      </div>
+    </div>
+
+    <div class="amenity-group">
+      <div class="amenity-group-label">設備</div>
+      <div class="amenity-tags">
+        <span class="amenity-tag">液晶テレビ</span>
+        <span class="amenity-tag">内線電話</span>
+        <span class="amenity-tag">セーフティボックス</span>
+        <span class="amenity-tag">冷蔵庫</span>
+        <span class="amenity-tag">電気ケトル</span>
+        <span class="amenity-tag">目覚まし時計</span>
+        <span class="amenity-tag">ハンガー</span>
+        <span class="amenity-tag">ヘアドライヤー</span>
+        <span class="amenity-tag">加湿機能付き空気清浄機</span>
+      </div>
+      <div class="amenity-note">※冷蔵庫の中は空になっております。ご自由にお使いください。</div>
+    </div>
+
+    </div><!-- /.amenity-box -->
   </div>
 
   <!-- 注意事項 -->

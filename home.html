@@ -45,17 +45,31 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 
 .section-wrap { max-width: 800px; margin: 0 auto; padding: 0 24px; }
 
+.notice-area {
+  margin-top: 16px; display: flex; flex-direction: column; gap: 8px;
+}
+.line-banner {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  flex-wrap: wrap;
+}
+.line-banner-text { font-size: 12px; color: #fff; line-height: 1.6; }
+.line-banner-btn {
+  display: inline-block; flex-shrink: 0;
+  background: #06C755; color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 5px 13px; border-radius: 20px; text-decoration: none; white-space: nowrap;
+}
 .notice {
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  padding: 4px 0 0; margin-top: 16px; flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  flex-wrap: wrap;
 }
 .notice-text { font-size: 12px; color: #fff; line-height: 1.6; }
 .notice-text b { color: #ffd84d; }
 .notice-btn {
   display: inline-block; flex-shrink: 0;
   background: #ffd84d; color: #1a1000;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
-  padding: 7px 16px; border-radius: 20px; text-decoration: none; white-space: nowrap;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 5px 13px; border-radius: 20px; text-decoration: none; white-space: nowrap;
 }
 .type-mini-row {
   display: flex; flex-wrap: wrap; gap: 8px;
@@ -148,11 +162,17 @@ a.partner-card:hover { opacity: 0.8; }
     </div>
   </div>
 
-  <div class="notice">
-    <div class="notice-text">
-      <b>【おしらせ】</b>あなたは何タイプ？ 30秒でわかるENJIN診断つくりました💁‍♀️
+  <div class="notice-area">
+    <div class="line-banner">
+      <div class="line-banner-text">📢 当日のご案内や参加者交流はLINEオープンチャットで行っています！まずはこちらへご参加ください</div>
+      <a class="line-banner-btn" href="https://line.me/ti/g2/piEHuxE4ochxSIiigyUzhl0WfwopavjW85fzlQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener">LINEに参加</a>
     </div>
-    <a class="notice-btn" href="type.html">今すぐ診断🔥</a>
+    <div class="notice">
+      <div class="notice-text">
+        <b>【おしらせ】</b>あなたは何タイプ？ 30秒でわかるENJIN診断つくりました💁‍♀️
+      </div>
+      <a class="notice-btn" href="type.html">今すぐ診断🔥</a>
+    </div>
   </div>
 
   <div class="cards-grid">
@@ -219,11 +239,11 @@ a.partner-card:hover { opacity: 0.8; }
         <a class="partner-card" href="https://www.edunet.or.jp/" target="_blank" rel="noopener">
           <img src="images/jisedai.jpeg" alt="一般社団法人 次世代教育ネットワーキング機構">
         </a>
+        <a class="partner-card" href="https://www.nskre.co.jp/" target="_blank" rel="noopener">
+          <img src="images/マーク+和文ブランドロゴ_ヨコ組み.jpg" alt="日鉄興和不動産株式会社">
+        </a>
         <a class="partner-card" href="https://global.honda/jp/" target="_blank" rel="noopener">
           <div class="honda-full">本田技研工業株式会社</div>
-        </a>
-        <a class="partner-card" href="https://www.nskre.co.jp/" target="_blank" rel="noopener">
-          <div class="honda-full">日鉄興和不動産株式会社</div>
         </a>
       </div>
     </div>
@@ -264,6 +284,7 @@ a.partner-card:hover { opacity: 0.8; }
         <div class="collab-text-item">一般社団法人シェアリングエコノミー協会</div>
         <div class="collab-text-item">milab株式会社</div>
         <div class="collab-text-item">YOILABO株式会社</div>
+        <div class="collab-text-item">株式会社haccoba</div>
       </div>
     </div>
 
