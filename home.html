@@ -53,6 +53,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   flex-wrap: wrap;
 }
 .line-banner-text { font-size: 12px; color: #fff; line-height: 1.6; }
+.sp-br { display: none; }
 .line-banner-btn {
   display: inline-block; flex-shrink: 0;
   background: #06C755; color: #fff;
@@ -130,7 +131,9 @@ a.partner-card:hover { opacity: 0.8; }
   .grid-2x2, .grid-2col { grid-template-columns: 1fr; }
   .grid-2x2 .honda-card { max-width: 100%; }
   .grid-1col-center { max-width: 100%; }
-  .notice { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .sp-br { display: inline; }
+  .line-banner { flex-direction: column; align-items: center; text-align: center; }
+  .notice { flex-direction: column; align-items: center; text-align: center; }
   .hero-title { font-size: 26px; }
 }
 </style>
@@ -164,12 +167,12 @@ a.partner-card:hover { opacity: 0.8; }
 
   <div class="notice-area">
     <div class="line-banner">
-      <div class="line-banner-text">📢 当日のご案内や参加者交流はLINEオープンチャットで行っています！まずはこちらへご参加ください</div>
+      <div class="line-banner-text">📢 当日のご案内や参加者交流はLINEのオープンチャットで<br class="sp-br">行っています！まずはこちらへご参加ください</div>
       <a class="line-banner-btn" href="https://line.me/ti/g2/piEHuxE4ochxSIiigyUzhl0WfwopavjW85fzlQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener">LINEに参加</a>
     </div>
     <div class="notice">
       <div class="notice-text">
-        <b>【おしらせ】</b>あなたは何タイプ？ 30秒でわかるENJIN診断つくりました💁‍♀️
+        <b>【あなたは何タイプ？】</b> 30秒でわかるENJIN診断つくりました💁‍♀️
       </div>
       <a class="notice-btn" href="type.html">今すぐ診断🔥</a>
     </div>
