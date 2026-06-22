@@ -174,9 +174,25 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #eef1f8; min-height:
   font-family: 'Noto Sans JP', sans-serif;
 }
 
+/* STAMP TAG（コメントに付くラベル） */
+.stamp-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #0fb8a0; border: none;
+  border-radius: 20px; padding: 3px 10px; margin-bottom: 6px;
+  font-size: 11px; color: #fff; font-weight: 700; letter-spacing: 0.03em;
+}
+
+/* STAMP SELECT（投稿フォームのプルダウン） */
+.stamp-select {
+  width: 100%; border: 1px solid rgba(13,26,107,0.15); border-radius: 6px;
+  padding: 8px 10px; font-size: 13px; color: #1a2a6b;
+  font-family: 'Noto Sans JP', sans-serif; background: #fff; margin-bottom: 8px;
+}
+.stamp-select:focus { outline: none; border-color: #0fb8a0; }
+
 /* COMMENTS */
 .comment-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-.comment-item { background: #f5f7fc; border-radius: 8px; padding: 10px 12px; border: 1px solid rgba(13,26,107,0.07); }
+.comment-item { background: #fff; border-radius: 8px; padding: 10px 12px; border: 1px solid rgba(13,26,107,0.1); }
 .comment-meta { font-size: 10px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
 .comment-name { font-weight: 700; color: #0d1a6b; }
 .comment-date { color: #bbb; }
@@ -504,24 +520,37 @@ function openGiveEdit(field) {
 
 // ---- COMMENTS ----
 
+const REACTIONS = [
+  { type: 'talk',   emoji: '👋', label: '話したい' },
+  { type: 'thanks', emoji: '❤️', label: 'ありがとう' },
+  { type: 'spark',  emoji: '🐣', label: '何か生まれそう' },
+  { type: 'again',  emoji: '💬', label: 'また話そう' },
+];
+
 let commentsTargetId = null;
 let commentsTargetName = '';
 let commentsCanPost = false;
 
-async function loadComments(targetId, targetName, canPost) {
+async function loadSection(targetId, targetName, canPost) {
   commentsTargetId = targetId;
   commentsTargetName = targetName || '';
   commentsCanPost = canPost;
   const area = document.getElementById('comments-area');
+  area.innerHTML = '<div class="comment-empty">読み込み中...</div>';
   try {
     const res = await gasGet({ action: 'get_comments', target_id: targetId });
-    renderComments(res.ok ? (res.data || []) : []);
+    renderSection((res.ok && res.data) ? res.data : []);
   } catch (_) {
-    area.innerHTML = '<div class="comment-empty">コメントを読み込めませんでした。</div>';
+    area.innerHTML = '<div class="comment-empty">読み込めませんでした。</div>';
   }
 }
 
-function renderComments(comments) {
+function stampTag(type) {
+  const r = REACTIONS.find(r => r.type === type);
+  return r ? `<div class="stamp-tag">${r.emoji} ${r.label}</div>` : '';
+}
+
+function renderSection(comments) {
   const area = document.getElementById('comments-area');
 
   const listHtml = comments.length
@@ -531,35 +560,45 @@ function renderComments(comments) {
           ? `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`
           : '';
         return `<div class="comment-item">
+          ${c.reaction_type ? stampTag(c.reaction_type) : ''}
           <div class="comment-meta">
             <span class="comment-name">${escapeHtml(c.commenter_name || '匿名')}</span>
             ${dateStr ? `<span class="comment-date">${dateStr}</span>` : ''}
           </div>
-          <div class="comment-text">${escapeHtml(c.message || '')}</div>
+          ${c.message ? `<div class="comment-text">${escapeHtml(c.message)}</div>` : ''}
         </div>`;
       }).join('')}</div>`
-    : `<div class="comment-empty">${commentsCanPost ? 'まだコメントはありません。最初のメッセージを送りましょう！' : 'まだコメントはありません。'}</div>`;
+    : `<div class="comment-empty">${commentsCanPost ? '一番乗り！最初のメッセージを送りましょう！' : 'まだコメントはありません。'}</div>`;
+
+  const stampOptions = REACTIONS.map(r =>
+    `<option value="${r.type}">${r.emoji} ${r.label}</option>`
+  ).join('');
 
   const formHtml = commentsCanPost ? `
     <div class="comment-form">
+      <select class="stamp-select" id="comment-stamp">
+        <option value="">スタンプを選んでね</option>
+        ${stampOptions}
+      </select>
       <input class="comment-input" id="comment-name" type="text" placeholder="名前（任意）" maxlength="50">
-      <textarea class="comment-textarea" id="comment-text" placeholder="${commentsTargetName}さんへのメッセージを書いてね" maxlength="500"></textarea>
+      <textarea class="comment-textarea" id="comment-text" placeholder="${commentsTargetName}さんへのメッセージ（任意）" maxlength="500"></textarea>
       <button class="comment-submit-btn" id="comment-submit">送る</button>
     </div>` : '';
 
   area.innerHTML = listHtml + formHtml;
 
   if (commentsCanPost) {
-    document.getElementById('comment-submit').addEventListener('click', submitComment);
+    document.getElementById('comment-submit')?.addEventListener('click', submitComment);
   }
 }
 
 async function submitComment() {
-  const nameEl = document.getElementById('comment-name');
-  const textEl = document.getElementById('comment-text');
-  const btn = document.getElementById('comment-submit');
-  const text = textEl.value.trim();
-  if (!text) { textEl.focus(); return; }
+  const stampEl = document.getElementById('comment-stamp');
+  const nameEl  = document.getElementById('comment-name');
+  const textEl  = document.getElementById('comment-text');
+  const btn     = document.getElementById('comment-submit');
+
+  if (!stampEl.value) { showToast('スタンプを選んでください'); stampEl.focus(); return; }
 
   btn.disabled = true;
   btn.textContent = '送信中...';
@@ -568,12 +607,13 @@ async function submitComment() {
     const res = await gasPost({
       action: 'post_comment',
       target_edit_id: commentsTargetId,
+      reaction_type: stampEl.value,
       commenter_name: nameEl.value.trim(),
-      message: text,
+      message: textEl.value.trim(),
     });
     if (res.ok) {
-      showToast('コメントを送りました！');
-      await loadComments(commentsTargetId, commentsTargetName, commentsCanPost);
+      showToast('送りました！');
+      await loadSection(commentsTargetId, commentsTargetName, commentsCanPost);
     } else {
       showToast('送信に失敗しました。再度お試しください。');
       btn.disabled = false;
@@ -678,7 +718,7 @@ async function load() {
   renderMessage(isOwn);
   renderType(isOwn, !!p.enjin_type);
   renderGive(isOwn);
-  loadComments(profileId, p.nickname || p.name, !isOwn);
+  loadSection(profileId, p.nickname || p.name, !isOwn);
 
   // 自分の編集URLではないアクセスのみ計測（fire-and-forget）
   if (!isOwn) {
