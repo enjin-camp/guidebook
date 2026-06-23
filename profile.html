@@ -723,6 +723,12 @@ async function load() {
   // 自分の編集URLではないアクセスのみ計測（fire-and-forget）
   if (!isOwn) {
     gasGet({ action: 'track_view', id: profileId }).catch(() => {});
+    // QRスキャン経由のみ別途記録（from=qr があるときだけ）
+    const fromQr = new URLSearchParams(location.search).get('from') === 'qr';
+    if (fromQr) {
+      const QR_TRACKER_URL = 'https://script.google.com/macros/s/AKfycbyNgLpL15hvRALwrOuMy3jK1pwmKJ8xR4PM1usQI01kx0FQdWCRuNWHpWAtW5CY6kCg/exec';
+      fetch(QR_TRACKER_URL + '?id=' + encodeURIComponent(profileId) + '&action=track', { mode: 'no-cors' }).catch(() => {});
+    }
   }
 }
 
