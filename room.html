@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>部屋割り — ENJIN 2026 GUIDE BOOK</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height: 100vh; color: #fff; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,26,107,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo { font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.15em; color: #fff; text-decoration: none; }
+.nav-logo span { color: #0fb8a0; }
+.nav-back { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.nav-back:hover { color: #fff; }
+
+.hero { padding: 44px 24px 32px; text-align: center; }
+.hero-eyebrow { font-family: 'Nunito Sans', sans-serif; font-size: 11px; letter-spacing: 0.3em; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.hero-title { font-family: 'Nunito Sans', sans-serif; font-size: 30px; font-weight: 900; letter-spacing: 0.15em; color: #0fb8a0; }
+.hero-accent { width: 36px; height: 3px; background: #0fb8a0; border-radius: 2px; margin: 12px auto 10px; }
+.hero-sub { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.05em; }
+
+.page-wrap { max-width: 480px; margin: 0 auto; padding: 0 24px 80px; }
+
+.note-box {
+  margin-top: 32px;
+  background: rgba(15,184,160,0.1); border: 1px solid rgba(15,184,160,0.3);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8;
+}
+
+.room-table {
+  width: 100%; border-collapse: collapse; margin-top: 28px;
+}
+.room-table th {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45); text-align: left;
+  padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.room-table th:first-child { text-align: center; }
+.room-table td {
+  padding: 0; vertical-align: middle;
+}
+.room-row {
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.12s;
+}
+.room-row:hover { background: rgba(255,255,255,0.04); }
+.room-num {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 20px; font-weight: 900;
+  color: #fff; letter-spacing: 0.05em;
+  padding: 28px 20px; white-space: nowrap;
+  vertical-align: middle; text-align: center;
+  width: 90px; min-width: 90px;
+  line-height: 1;
+}
+.room-members {
+  padding: 28px 10px 28px 4px;
+  line-height: 1;
+}
+.room-row td { height: 80px; }
+.member-chips { display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: center; }
+.member-chip {
+  font-size: 17px; color: rgba(255,255,255,0.9);
+  white-space: nowrap;
+}
+a.member-chip {
+  text-decoration: none;
+  color: #0fb8a0;
+  border-bottom: 1px solid rgba(15,184,160,0.35);
+  transition: color 0.15s, border-color 0.15s;
+}
+a.member-chip:hover {
+  color: #fff;
+  border-bottom-color: rgba(255,255,255,0.5);
+}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a class="nav-logo" href="home.html">ENJIN 2026 <span>GUIDE BOOK</span></a>
+  <a class="nav-back" href="home.html">← ホームへ</a>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">ACCOMMODATION</div>
+  <div class="hero-title">部屋割り</div>
+  <div class="hero-accent"></div>
+  <div class="hero-sub">宿泊部屋の割り当て一覧</div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="note-box">
+    相部屋の方の組み合わせのみ掲載しています。個室をお申し込みの方は鍵のお渡しの際に部屋番号をご確認ください。
+  </div>
+
+  <table class="room-table">
+    <thead>
+      <tr>
+        <th>部屋番号</th>
+        <th>メンバー</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="room-row">
+        <td class="room-num">202</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">藤澤恵太</span><span class="member-chip">西村晃</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">204</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">石川洋人</span><span class="member-chip">高橋大就</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">206</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">大畑慎治</span><span class="member-chip">藤田和也</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">208</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">横田裕美</span><span class="member-chip">小山穂乃佳</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">210</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">松井理泰</span><span class="member-chip">澁澤龍太</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">212</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">永田健作</span><span class="member-chip">横井朗</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">214</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">安齋耀太</span><span class="member-chip">島田真太郎</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">216</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">笹山正浩</span><span class="member-chip">福田遼</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">218</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">木戸優起</span><span class="member-chip">渡辺麗斗</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">219</td>
+        <td class="room-members"><div class="member-chips"><a class="member-chip" href="profile.html?id=enjin-u3kb-edit">伊藤愛莉</a><span class="member-chip">川口真目</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">221</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">松尾雄大</span><span class="member-chip">濱野将行</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">223</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">河内将弘</span><span class="member-chip">金昌志</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">225</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">岩下隆信</span><span class="member-chip">渭原義弘</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">227</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">大塚桃奈</span><span class="member-chip">中尾英理</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">229</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">掛川遥香</span><span class="member-chip">中村涼香</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">238</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">宮田さやか</span><span class="member-chip">三鴨岐子</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">240</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">京邦治</span><span class="member-chip">河原木俊幸</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">242</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">丑田俊輔</span><span class="member-chip">日野昌暢</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">244</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">髙田理世</span><span class="member-chip">江場日菜子</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">246</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">李成一</span><span class="member-chip">小沼大地</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">248</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">菅谷真実</span><span class="member-chip">植竹朋子</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">250</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">佐伯香那</span><span class="member-chip">林リエ</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">302</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">たいら由以子</span><span class="member-chip">粟田あや</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">304</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">原田岳</span><span class="member-chip">真鍋希代嗣</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">306</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">吉田真衣</span><span class="member-chip">原口瑛子</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">308</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">川北奈津</span><span class="member-chip">長嶺由衣子</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">310</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">豊田訓平</span><span class="member-chip">目野修平</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">312</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">田熊彩子</span><span class="member-chip">流郷綾乃</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">314</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">葛西伶</span><span class="member-chip">佐野愛</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">316</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">太田真之</span><span class="member-chip">坂口真生</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">318</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">半澤節</span><span class="member-chip">金辰泰</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">319</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">新谷和実</span><span class="member-chip">泓田真由</span><span class="member-chip">松下ゆか理</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">321</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">辻田寛明</span><span class="member-chip">知念大河</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">323</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">鈴木雅剛</span><span class="member-chip">田口一成</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">325</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">和田智行</span><span class="member-chip">長尾真一</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">327</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">神谷崇範</span><span class="member-chip">廣瀬智之</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">329</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">峠慶太郎</span><span class="member-chip">金野索一</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">338</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">奥田悠史</span><span class="member-chip">鳥巣智行</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">340</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">青木健太</span><span class="member-chip">吉田照喜</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">342</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">最所あさみ</span><span class="member-chip">風間美穂</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">344</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">川邊笑</span><span class="member-chip">戸倉恵利香</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">346</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">本間奏</span><span class="member-chip">中越愛</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">348</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">前田善之介</span><span class="member-chip">梅澤宏徳</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">350</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">入谷佐知</span><span class="member-chip">市川加奈</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">352</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">柴田花菜</span><span class="member-chip">齊藤瑶織</span><span class="member-chip">田村菜々穂</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">101</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">青山明弘</span><span class="member-chip">田中暢也</span><span class="member-chip">小森勇太</span><span class="member-chip">柴山翔太</span><span class="member-chip">藤本遼</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">103</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">菅原琥太郎</span><span class="member-chip">小松航大</span><span class="member-chip">中津井楓真</span><span class="member-chip">池山翔太</span><span class="member-chip">吉田裕喜</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">104</td>
+        <td class="room-members"><div class="member-chips"><a class="member-chip" href="profile.html?id=enjin-i0wh-edit">塚本直希</a><span class="member-chip">関谷昴</span><span class="member-chip">安達亮</span><span class="member-chip">峯上良平</span><span class="member-chip">佐藤太亮</span></div></td>
+      </tr>
+      <tr class="room-row">
+        <td class="room-num">105</td>
+        <td class="room-members"><div class="member-chips"><span class="member-chip">瀬川知孝</span><span class="member-chip">相原恭平</span><span class="member-chip">宗藤正典</span><span class="member-chip">毛利規寛</span></div></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<script src="guidebook.js"></script>
+<script>
+requireAuth();
+
+(async function linkProfiles() {
+  try {
+    const data = await gasGet({ action: 'participants' });
+    if (!data || !data.data) return;
+
+    // スペースを除去して正規化した名前 → edit_id のマップを作る
+    const nameMap = {};
+    data.data.forEach(m => {
+      const key = (m.name || '').replace(/\s+/g, '');
+      if (key && m.edit_id) nameMap[key] = m.edit_id;
+    });
+
+    document.querySelectorAll('.member-chip').forEach(chip => {
+      const key = chip.textContent.replace(/\s+/g, '');
+      const editId = nameMap[key];
+      if (!editId) return;
+      const a = document.createElement('a');
+      a.href = `profile.html?id=${editId}`;
+      a.className = chip.className;
+      a.textContent = chip.textContent;
+      chip.replaceWith(a);
+    });
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
