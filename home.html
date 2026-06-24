@@ -100,6 +100,22 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 .card-desc { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.7; }
 .card-arrow { font-size: 13px; color: #0fb8a0; margin-top: 14px; display: block; }
 
+.photo-card { cursor: default; }
+.photo-links { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.photo-link-btn {
+  display: block; text-align: center;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 7px 14px; text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.photo-link-btn:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+.photo-link-btn.upload {
+  background: #0fb8a0; border-color: #0fb8a0;
+  color: #fff; font-size: 13px; padding: 10px 14px;
+}
+.photo-link-btn.upload:hover { background: #0da090; border-color: #0da090; }
+
 .partners-section { margin-top: 48px; padding-bottom: 80px; text-align: center; }
 .section-label { font-family: 'Nunito Sans', sans-serif; font-size: 18px; font-weight: 900; letter-spacing: 0.2em; color: rgba(255,255,255,0.55); margin-bottom: 28px; }
 .partner-block { margin-top: 48px; }
@@ -221,13 +237,23 @@ a.partner-card:hover { opacity: 0.8; }
       <div class="card-desc">8つのイニシアチブ<br>参加者一覧</div>
       <span class="card-arrow">→ イニシアチブを見る</span>
     </a>
-    <div class="nav-card soon">
+    <div class="nav-card photo-card" onclick="void(0)">
+      <div class="card-icon">📸</div>
+      <div class="card-accent"></div>
+      <div class="card-title">みんなの写真</div>
+      <div class="card-desc">撮った写真はみんなでシェア！<br>ほしい写真をダウンロードできます📸</div>
+      <div class="photo-links">
+        <a class="photo-link-btn upload" href="../enjin-photos/upload.html">📤 撮った写真をアップ</a>
+        <a class="photo-link-btn" href="../enjin-photos/gallery.html">みんなが撮った写真を見る</a>
+      </div>
+    </div>
+    <a class="nav-card" href="room.html">
       <div class="card-icon">🛏</div>
       <div class="card-accent"></div>
       <div class="card-title">部屋割り</div>
       <div class="card-desc">宿泊部屋の割り当て一覧</div>
-      <span class="card-soon">🚧 COMING SOON</span>
-    </div>
+      <span class="card-arrow">→ 部屋割りを見る</span>
+    </a>
   </div>
 
   <div class="partners-section">
