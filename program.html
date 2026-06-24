@@ -88,6 +88,27 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
 .s-speakers { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 5px; line-height: 1.7; }
 .s-desc { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 5px; line-height: 1.7; }
 
+/* 会場リスト（ENJIN Initiative） */
+.s-rooms { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); }
+.s-room-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.s-room-row:last-child { border-bottom: none; }
+.s-room-name { font-size: 12px; color: rgba(255,255,255,0.75); }
+.s-room-venue { font-size: 11px; color: #0fb8a0; font-weight: 600; white-space: nowrap; margin-left: 8px; }
+
+/* グループリスト（Group Work） */
+.s-groups { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); }
+.s-group-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  gap: 8px;
+}
+.s-group-row:last-child { border-bottom: none; }
+.s-group-name { font-size: 12px; color: rgba(255,255,255,0.75); white-space: nowrap; }
+.s-group-tags { font-size: 10px; color: rgba(255,255,255,0.3); text-align: right; }
+
 .day-content { display: none; }
 .day-content.active { display: block; }
 
@@ -126,7 +147,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   <div class="day-content active" id="day1">
     <div class="schedule">
       <div class="schedule-row">
-        <div class="s-time">12:00</div>
+        <div class="s-time">12:25</div>
         <div><span class="s-tag tag-opening">Opening</span><div class="s-title">オープニング・チェックイン</div></div>
       </div>
       <div class="schedule-row">
@@ -138,32 +159,33 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
         </div>
       </div>
       <div class="schedule-row">
-        <div class="s-time">13:20</div>
-        <div><span class="s-tag tag-thema">Thema</span><div class="s-title">ENJIN Table 概要説明</div></div>
-      </div>
-      <div class="schedule-row break">
-        <div class="s-time">13:45</div>
-        <div><div class="s-title">移動・休憩　10分</div></div>
-      </div>
-      <div class="schedule-row">
-        <div class="s-time">14:00</div>
+        <div class="s-time">14:10</div>
         <div>
-          <span class="s-tag tag-enjin">ENJIN Table</span>
+          <span class="s-tag tag-enjin">ENJIN Initiative</span>
           <div class="s-title">8つのイニシアチブに分かれて、希望がめぐる社会のグランドデザインを描く</div>
-          <div class="s-desc">【対象軸】不登校の子ども／介護未満の高齢者／就労困難な障がい者／貧困家庭の子ども／外国人労働者・移民<br>【構造軸】持続可能な地域自治の再設計／生態系が崩れた森林の再設計／サーキュラーな街づくり</div>
+          <div class="s-rooms">
+            <div class="s-room-row"><span class="s-room-name">貧困家庭の子ども・ひとり親</span><span class="s-room-venue">第2会議室</span></div>
+            <div class="s-room-row"><span class="s-room-name">不登校の子ども</span><span class="s-room-venue">ホワイエ</span></div>
+            <div class="s-room-row"><span class="s-room-name">就労困難な社会的弱者</span><span class="s-room-venue">第3会議室</span></div>
+            <div class="s-room-row"><span class="s-room-name">日本に暮らす外国人労働者・移民</span><span class="s-room-venue">第4会議室</span></div>
+            <div class="s-room-row"><span class="s-room-name">介護未満の高齢者</span><span class="s-room-venue">国際会議場（前方）</span></div>
+            <div class="s-room-row"><span class="s-room-name">生態系が崩れた森林・流域の再設計</span><span class="s-room-venue">国際会議場（後方）</span></div>
+            <div class="s-room-row"><span class="s-room-name">サーキュラーな街づくり</span><span class="s-room-venue">特別研修室</span></div>
+            <div class="s-room-row"><span class="s-room-name">地域自治の再設計</span><span class="s-room-venue">第6会議室</span></div>
+          </div>
         </div>
       </div>
       <div class="schedule-row">
-        <div class="s-time">18:00</div>
-        <div><span class="s-tag tag-share">Share</span><div class="s-title">各イニシアチブの発表・全体共有</div></div>
+        <div class="s-time">18:15</div>
+        <div>
+          <span class="s-tag tag-share">Share</span>
+          <div class="s-title">全体発表</div>
+          <div class="s-desc">国際会議場</div>
+        </div>
       </div>
       <div class="schedule-row">
         <div class="s-time">19:30</div>
         <div><div class="s-title">夕食・懇親会</div></div>
-      </div>
-      <div class="schedule-row">
-        <div class="s-time">MN</div>
-        <div><div class="s-title">Midnight ENJIN</div></div>
       </div>
     </div>
   </div>
@@ -172,56 +194,66 @@ body { font-family: 'Noto Sans JP', sans-serif; background: #0d1a6b; min-height:
   <div class="day-content" id="day2">
     <div class="schedule">
       <div class="schedule-row">
-        <div class="s-time">8:00</div>
+        <div class="s-time">8:15</div>
+        <div>
+          <span class="s-tag tag-opening">Start</span>
+          <div class="s-title">スタート</div>
+          <div class="s-speakers">MC: さしみさん・晃さん</div>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="s-time">8:25</div>
         <div>
           <span class="s-tag tag-special">Special Contents</span>
-          <div class="s-title">沖縄戦体験者への聞き取りをもとに制作された、平和劇の観劇</div>
+          <div class="s-title">平和劇 / 講和</div>
           <div class="s-speakers">株式会社ナラティブ 代表取締役 永田健作さん、劇団員の皆様</div>
         </div>
       </div>
-      <div class="schedule-row break">
-        <div class="s-time">9:00</div>
-        <div><div class="s-title">休憩　10分</div></div>
+      <div class="schedule-row">
+        <div class="s-time">9:35</div>
+        <div>
+          <span class="s-tag tag-interactive">Session 1</span>
+          <div class="s-title">理想だけでは守れない。国家の安全保障と、私たちの平和を考える</div>
+          <div class="s-speakers">一般社団法人東の食の会 代表 高橋大就さん／元防衛省・藤田和也さん／ボーダレスファウンデーション 理事 中村 涼香さん</div>
+        </div>
       </div>
       <div class="schedule-row">
-        <div class="s-time">9:10</div>
-        <div><span class="s-tag tag-interactive">Interactive session</span><div class="s-title">理想だけでは守れない。国家の安全保障と、私たちの平和を考える</div></div>
+        <div class="s-time">10:25</div>
+        <div>
+          <span class="s-tag tag-talk">Session 2</span>
+          <div class="s-title">世界が揺らぐ時代に、平和をどう守り、どうつくるのか</div>
+          <div class="s-speakers">一般社団法人東の食の会 代表 高橋大就さん／株式会社LIFULL 代表取締役会長 井上 高志さん／認定NPO法人テラ・ルネッサンス 理事長 吉田真衣さん</div>
+        </div>
       </div>
       <div class="schedule-row">
-        <div class="s-time">9:55</div>
-        <div><span class="s-tag tag-talk">Talk session</span><div class="s-title">世界が揺らぐ時代に、平和をどう守り、どうつくるのか</div></div>
-      </div>
-      <div class="schedule-row">
-        <div class="s-time">10:45</div>
-        <div><span class="s-tag tag-share">Share</span><div class="s-title">ピースフルリーダーシップの行動指針と、PEACE ENJINの活動について</div></div>
-      </div>
-      <div class="schedule-row">
-        <div class="s-time">10:55</div>
-        <div><span class="s-tag tag-individual">Individual work</span><div class="s-title">個人ワーク</div></div>
+        <div class="s-time">11:05</div>
+        <div>
+          <span class="s-tag tag-share">Share</span>
+          <div class="s-title">ピースフルリーダーシップの行動指針と、PEACE ENJINの活動について</div>
+          <div class="s-speakers">国境なき医師団 日本 広報部 佐野愛さん／The Peace Front 代表理事 新谷和実さん</div>
+        </div>
       </div>
       <div class="schedule-row">
         <div class="s-time">11:10</div>
-        <div><div class="s-title">グルーピング</div></div>
-      </div>
-      <div class="schedule-row break">
-        <div class="s-time">11:20</div>
-        <div><div class="s-title">移動・休憩　10分</div></div>
+        <div><span class="s-tag tag-individual">Reflection</span><div class="s-title">リフレクション</div></div>
       </div>
       <div class="schedule-row">
-        <div class="s-time">11:30</div>
-        <div><span class="s-tag tag-action">Action planning</span><div class="s-title">グループに分かれ、アクションプランニング</div></div>
-      </div>
-      <div class="schedule-row break">
-        <div class="s-time">12:15</div>
-        <div><div class="s-title">移動・休憩　10分</div></div>
+        <div class="s-time">11:40</div>
+        <div>
+          <span class="s-tag tag-action">Group Work</span>
+          <div class="s-title">グループワーク / アクションプランニング</div>
+          <div class="s-groups">
+            <div class="s-group-row"><span class="s-group-name">平和 × 次世代を育む</span><span class="s-group-tags">#教育 #リーダー育成 #若者参加</span></div>
+            <div class="s-group-row"><span class="s-group-name">平和 × 分断を超える</span><span class="s-group-tags">#対話 #民主主義 #異文化理解 #多様性</span></div>
+            <div class="s-group-row"><span class="s-group-name">平和 × 居場所をつくる</span><span class="s-group-tags">#孤独孤立 #誰も取り残さない #コミュニティ</span></div>
+            <div class="s-group-row"><span class="s-group-name">平和 × 機会をひらく</span><span class="s-group-tags">#貧困 #教育格差 #キャリア #可能性拡大</span></div>
+            <div class="s-group-row"><span class="s-group-name">平和 × 文化をつなぐ</span><span class="s-group-tags">#アート #旅 #祈り #文化継承</span></div>
+          </div>
+        </div>
       </div>
       <div class="schedule-row">
-        <div class="s-time">12:25</div>
+        <div class="s-time">12:30</div>
         <div><span class="s-tag tag-closing">Closing</span><div class="s-title">全体発表・クロージング</div></div>
-      </div>
-      <div class="schedule-row s-plain">
-        <div class="s-time dim">12:50</div>
-        <div><div class="s-title">解散</div></div>
       </div>
     </div>
   </div>
